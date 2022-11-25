@@ -134,7 +134,7 @@ void People::Right()
 
 bool People::isFinish()
 {
-	return true;
+	return mY == 5;
 }
 
 bool People::isDead()

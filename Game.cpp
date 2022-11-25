@@ -68,6 +68,10 @@ void Game::drawCRGameBoard(int x, int y)
         cout << tutorial[i];
     }
 
+
+    handle->GotoXY(Xtutorial + tutorial[0].size(), Ytutorial);
+    cout << *lvl;
+
     vector<string> levelTitle;
     levelTitle.push_back("  _    _____   _____ _    ");
     levelTitle.push_back(" | |  | __\\ \\ / / __| |   ");
@@ -78,10 +82,6 @@ void Game::drawCRGameBoard(int x, int y)
         handle->GotoXY(83 + (117 - 83 - levelTitle[0].size()) / 2, 4 + 1 + i);
         cout << levelTitle[i];
     }
-
-
-
-
 }
 
 
@@ -282,17 +282,7 @@ void Launch()
 
         if (isStop)
             handle.TextColor(BLACK);
-
-
-
-
-
     }
-
-
-
-
-
 
 }
 
@@ -303,28 +293,14 @@ Game::Game()
 
 Game::Game(int* level, bool* sound)
 {
-    /*title.push_back("   ______                              ____                  __");
-    title.push_back("  / ____/________  ____________  __   / __ \\____  ____ _____/ /");
-    title.push_back(" / /   / ___/ __ \\/ ___/ ___/ / / /  / /_/ / __ \\/ __ `/ __  / ");
-    title.push_back("/ /___/ /  / /_/ (__  |__  ) /_/ /  / _, _/ /_/ / /_/ / /_/ /  ");
-    title.push_back("\\____/_/   \\____/____/____/\\__, /  /_/ |_|\\____/\\__,_/\\__,_/   ");
-    title.push_back("                          /____/                               ");
-    titleHeight = title.size();
-    titleWidth = title[0].size();*/
 
     oldX = P.getX();
     oldY = P.getY();
+    *lvl = *level;
     GAMEOVER.push_back("   ___   _   __  __ ___    _____   _____ ___ ");
     GAMEOVER.push_back("  / __| /_\\ |  \\/  | __|  / _ \\ \\ / / __| _ \\");
     GAMEOVER.push_back(" | (_ |/ _ \\| |\\/| | _|  | (_) \\ V /| _||   /");
-    GAMEOVER.push_back("  \___/_/ \_\\_|  |_|___|  \\___/ \\_/ |___|_|_\\");
-
-
-
-
-
-
-
+    GAMEOVER.push_back("  \\___/_/ \\_\\_|  |_|___|  \\___/ \\_/ |___|_|_\\");
 }
 
 Game::~Game()
@@ -363,8 +339,11 @@ void Game::Start()
             // thread thoát game
 
             exitGame(&sThread, &isRunning);
+
             handle.GotoXY((consoleWidth - afterLose.size()) / 2, consoleHeight / 2 - 3);
             cout << afterLose;
+
+
             int tempInput = input;
 
             while (1)
@@ -421,27 +400,47 @@ void Game::Start()
         //user di chuyển nhân vật
         movePeople(input);
 
-        //if (P.isFinish()) // hàm này có vấn đề
-        //{
-        //    //xử lý khi user qua màn
-        //    Sleep(100);
-        //    //exitGame(&sThread, &isRunning);
+        if (P.isFinish()) // hàm này có vấn đề
+        {
+            //xử lý khi user qua màn
+            Sleep(100);
+            exitGame(&sThread, &isRunning);
 
-        //    if (*lvl < 5)
-        //    {
-        //        ++(*lvl);
-        //        cout << "On to level " << (*lvl) << endl;
-        //    }
-        //    else
-        //    {
-        //        *lvl = 0;
-        //        cout << "You win. Back to lvl 0\n";
-        //    }
+            if (*lvl < 5)
+            {
+                ++(*lvl);
+                handle.GotoXY(consoleWidth / 3, 1);
+                cout << "On to level " << (*lvl) << endl;
+                handle.GotoXY(consoleWidth / 3, 2);
+                cout << "Press any key to continue";
+                int tempInput = toupper(_getch());
+                while (1)
+                {
+                    handle.GotoXY(0, 2);
+                    cout << "Press any key to continue";
+                    if (input >= 0 && input <= 127)
+                        break;
+                }
+            }
+            else
+            {
+                *lvl = 0;
+                handle.GotoXY(consoleWidth / 3, 2);
+                cout << "You win. Back to lvl 0";
+                int tempInput = toupper(_getch());
+                while (1)
+                {
+                    handle.GotoXY(consoleWidth / 3, 2);
+                    cout << "You win. Back to lvl 0";
+                    if (input >= 0 && input <= 127)
+                        break;
+                }
+            }
 
-        //    _getch();
-        //    Start();
-        //    break;
-        //}
+            //_getch();
+            startLevel(lvl, sound);
+            break;
+        }
         Sleep(10);
     }
 
@@ -467,30 +466,9 @@ void subThread(Game* g, bool* IS_RUNNING, bool* IS_PAUSE, bool* sound)
     {
         while (*IS_PAUSE);
 
-
-        /*if (fogCounter < 350)
-            ++fogCounter;
-        else
-            fogCounter = 0;
-
-        if (fogCounter < 275)
-            fog = true;
-        else
-            fog = false;*/
-
-
-
-
-
-
-
         g->updatePosVehicle();
         g->updatePosPeople();
         g->characterIsDead();
-
-
-
-
 
         Sleep(10);
 
@@ -506,15 +484,17 @@ void subThread(Game* g, bool* IS_RUNNING, bool* IS_PAUSE, bool* sound)
         g->drawGame();
         handle.GotoXY(0, 0);
         cout << g->gameOver;*/
+
+        for (int i = 0; i < g->GAMEOVER.size(); i++)
+        {
+            handle.GotoXY((consoleWidth - g->GAMEOVER[0].size()) / 2, 5 + i);
+            cout << g->GAMEOVER[i];
+        }
+
         handle.GotoXY((consoleWidth - g->gameOver.size()) / 2, consoleHeight / 2 -1);
         cout << g->gameOver;
         handle.GotoXY((consoleWidth - g->afterLose.size()) / 2, consoleHeight / 2 - 3);
         cout << g->afterLose;
-
-
-        
-        
-
 
     }
 
@@ -555,13 +535,10 @@ void Game::drawGame()
     }
 
 
-
-
     //cout lvl mấy ra.
 
-
-
-
+   /* handle.GotoXY(0, 0);
+    cout << "LEVEL " << *lvl;*/
 
 }
 
@@ -609,9 +586,39 @@ void Game::updatePosVehicle()
     //    stopTime = 10;
 
     V.updateMoveCount();
-    if (V.getMoveCount() <= 99) //Số này càng giảm xe chạy càng nhanh
-        return;
-
+    switch(*lvl)
+    {
+    case 0:
+    {
+        if (V.getMoveCount() <= 99) //Số này càng giảm xe chạy càng nhanh
+            return;
+    }
+    case 1:
+    {
+        if (V.getMoveCount() <= 89)
+            return;
+    }
+    case 2:
+    {
+        if (V.getMoveCount() <= 79)
+            return;
+    }
+    case 3:
+    {
+        if (V.getMoveCount() <= 69)
+            return;
+    }
+    case 4:
+    {
+        if (V.getMoveCount() <= 59)
+            return;
+    }
+    case 5:
+    {
+        if (V.getMoveCount() <= 29)
+            return;
+    }
+    }
 
     Console handle;
     vector<string> form;
@@ -619,23 +626,6 @@ void Game::updatePosVehicle()
     form.push_back("|  _     _``-.");
     form.push_back("'-(_)---(_)--'");
     int vX, vY = V.getY();
-
-    /* for (int i = 0; i < 3; i++)
-     {
-         vX = V.getX();
-         handle.GotoXY(vX, vY + i);
-         cout << "              ";
-         V.setX(vX + 1);
-         if (V.getX() + 14 >= 79)
-             V.setX(6);
-         vX = V.getX();
-         handle.GotoXY(vX, vY + i);
-         cout << form[i];
-         Sleep(200);
-     }*/
-
-
-
 
     for (int i = 0; i < 3; i++)
     {
@@ -655,14 +645,7 @@ void Game::updatePosVehicle()
         cout << form[i];
     }
 
-
-
-
-
 }
-
-
-
 
 
 bool Game::characterIsDead()
