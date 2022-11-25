@@ -5,7 +5,7 @@
 #include <Windows.h>
 #include <conio.h>
 #include "Vehicle.h"
-
+#include <vector>
 
 #define BLACK 0
 #define AQUA 3
@@ -38,6 +38,9 @@ public:
 	static const int BOARD_HEIGHT = 25;
 	string gameOver = "GAME OVER!";
 	string afterLose = "PRESS Y TO CONTINUE, N TO END";
+	string pausing = "GAME PAUSE";
+	vector<string> GAMEOVER;
+
 private:
 	People P;
 	int oldX, oldY;

@@ -314,6 +314,15 @@ Game::Game(int* level, bool* sound)
 
     oldX = P.getX();
     oldY = P.getY();
+    GAMEOVER.push_back("   ___   _   __  __ ___    _____   _____ ___ ");
+    GAMEOVER.push_back("  / __| /_\\ |  \\/  | __|  / _ \\ \\ / / __| _ \\");
+    GAMEOVER.push_back(" | (_ |/ _ \\| |\\/| | _|  | (_) \\ V /| _||   /");
+    GAMEOVER.push_back("  \___/_/ \_\\_|  |_|___|  \\___/ \\_/ |___|_|_\\");
+
+
+
+
+
 
 
 }
@@ -336,7 +345,7 @@ void Game::Start()
 {
     bool isRunning = true;
     bool isPause = false;
-
+    Console handle;
 
     drawGame(); //KHÁC BÀI MẪU
 
@@ -352,24 +361,25 @@ void Game::Start()
         {
             // xử lý các thứ
             // thread thoát game
-            //exitGame(&sThread, &isRunning);
 
-            //cout << "press Y to coninue, N to end\n";
-            //int tempInput = input;
+            exitGame(&sThread, &isRunning);
+            handle.GotoXY((consoleWidth - afterLose.size()) / 2, consoleHeight / 2 - 3);
+            cout << afterLose;
+            int tempInput = input;
 
-            //while (1)
-            //{
-            //    if (tempInput == 89) // chữ Y
-            //        Start();
-            //    else if (tempInput != 78) //input != N
-            //    {
+            while (1)
+            {
+                if (tempInput == 89) // chữ Y
+                    startLevel(lvl, sound);
+                else if (tempInput != 78) //input != N
+                {
 
-            //        tempInput = toupper(_getch());
-            //        continue;
-            //    }
-            //    break; //Nếu nhập N thì break vòng while gần nhất
-            //}
-            //break; //tiếp tục break vòng while lớn 
+                    tempInput = toupper(_getch());
+                    continue;
+                }
+                break; //Nếu nhập N thì break vòng while gần nhất
+            }
+            break; //tiếp tục break vòng while lớn 
 
         }
 
@@ -378,11 +388,15 @@ void Game::Start()
         if (input == 80)
         {
             isPause = true;
+            handle.GotoXY((consoleWidth - pausing.size()) / 2, 3);
+            cout << pausing;
             while (1)
             {
                 int tmpInput = toupper(_getch());
                 if (tmpInput == 80)
                 {
+                    handle.GotoXY((consoleWidth - pausing.size()) / 2, 3);
+                    cout << "            ";
                     isPause = false;
                     break;
                 }
@@ -494,6 +508,9 @@ void subThread(Game* g, bool* IS_RUNNING, bool* IS_PAUSE, bool* sound)
         cout << g->gameOver;*/
         handle.GotoXY((consoleWidth - g->gameOver.size()) / 2, consoleHeight / 2 -1);
         cout << g->gameOver;
+        handle.GotoXY((consoleWidth - g->afterLose.size()) / 2, consoleHeight / 2 - 3);
+        cout << g->afterLose;
+
 
         
         
