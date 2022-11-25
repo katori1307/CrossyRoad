@@ -629,7 +629,7 @@ void Game::updatePosVehicle()
 
     for (int i = 0; i < 3; i++)
     {
-        vX = V.getX();
+        vX = V.getX(); //
         handle.GotoXY(vX, vY + i);
         cout << "              ";
     }
