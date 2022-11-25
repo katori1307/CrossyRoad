@@ -262,7 +262,7 @@ void Launch()
         }
         //User chưa nhấn "E"
         handle.GotoXY(optionX, optionY + line); //Đổi màu option mà user chưa chọn thành màu bthg
-        handle.TextColor(YELLOW);
+        handle.TextColor(YELLOW);   //haha
         cout << menu[line];
 
         if (input == 87)
