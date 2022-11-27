@@ -6,6 +6,7 @@
 #include <conio.h>
 #include "Vehicle.h"
 #include <vector>
+#include "Helicopter.h"
 
 #define BLACK 0
 #define AQUA 3
@@ -45,6 +46,7 @@ private:
 	People P;
 	int oldX, oldY;
 	Vehicle V;
+	Helicopter H;
 	bool* sound;
 	int* lvl = new int;
 	bool flag;
@@ -60,18 +62,26 @@ public:
 	~Game();
 	void drawCRGameBoard(int x, int y);
 	void exitGame(thread* t, bool* IS_RUNNING);
+
 	void movePeople(int input);
+
+
 	void Start();
 	void drawGame();
+	int getLevel();
+
 	void updatePosPeople();
+
 	void updatePosVehicle();
 	void updatePosVehicle2();
 
+	void updatePosHeli();
+	void updatePosHeli2();
 
 	bool characterIsDead();
 	void redLight();
 	void greenLight();
-	int getLevel();
+	
 
 
 

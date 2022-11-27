@@ -7,7 +7,6 @@ Vehicle::Vehicle()
 	mX = 6;
 	mX2 = 6;
 	mY = 5;
-	//mSpeed = 1;
 	moveCount = 0;
 	moveCount2 = 0;
 }
@@ -99,8 +98,8 @@ void Vehicle::updateMoveCount()
 
 void Vehicle::updateMoveCount2()
 {
-	moveCount2 = moveCount;
-	if (moveCount2 <= 150)
+	moveCount2 = moveCount-1;
+	if (moveCount2 <= 20)
 		moveCount2++;
 	else
 		moveCount2 = 0;
