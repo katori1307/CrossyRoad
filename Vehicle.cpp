@@ -5,9 +5,11 @@
 Vehicle::Vehicle()
 {
 	mX = 6;
+	mX2 = 6;
 	mY = 5;
-	mSpeed = 1;
+	//mSpeed = 1;
 	moveCount = 0;
+	moveCount2 = 0;
 }
 
 Vehicle::~Vehicle()
@@ -63,6 +65,7 @@ int Vehicle::getY()
 	return mY;
 }
 
+
 void Vehicle::setX(int x)
 {
 	mX = x;
@@ -75,13 +78,32 @@ void Vehicle::setY(int y)
 	return;
 }
 
+int Vehicle::getX2()
+{
+	return mX2;
+}
+
+void Vehicle::setX2(int x)
+{
+	mX2 = x;
+}
+
 
 void Vehicle::updateMoveCount()
 {
-	if (moveCount <= 100)
+	if (moveCount <= 20)
 		moveCount++;
 	else
 		moveCount = 0;
+}
+
+void Vehicle::updateMoveCount2()
+{
+	moveCount2 = moveCount;
+	if (moveCount2 <= 150)
+		moveCount2++;
+	else
+		moveCount2 = 0;
 }
 
 
@@ -100,4 +122,17 @@ int Vehicle::getMoveCount()
 void Vehicle::setMoveCount(int step)
 {
 	moveCount = step;
+}
+
+
+
+int Vehicle::getMoveCount2()
+{
+	return moveCount2;
+}
+
+
+void Vehicle::setMoveCount2(int step)
+{
+	moveCount2 = step;
 }

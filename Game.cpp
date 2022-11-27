@@ -297,6 +297,7 @@ Game::Game(int* level, bool* sound)
     oldX = P.getX();
     oldY = P.getY();
     *lvl = *level;
+    flag = false;
     GAMEOVER.push_back("   ___   _   __  __ ___    _____   _____ ___ ");
     GAMEOVER.push_back("  / __| /_\\ |  \\/  | __|  / _ \\ \\ / / __| _ \\");
     GAMEOVER.push_back(" | (_ |/ _ \\| |\\/| | _|  | (_) \\ V /| _||   /");
@@ -450,16 +451,12 @@ void Game::Start()
 
 void subThread(Game* g, bool* IS_RUNNING, bool* IS_PAUSE, bool* sound)
 {
-    //g->drawGame();
-
+    
     //chỗ này là sound thread
     int fogCounter = 0;
 
     bool move = true;
     bool fog = true;
-
-    //int timer = 0; //fogCounter
-    //bool isTime = true; //fog
 
 
     while (*IS_RUNNING && !g->characterIsDead())
@@ -468,9 +465,19 @@ void subThread(Game* g, bool* IS_RUNNING, bool* IS_PAUSE, bool* sound)
 
         g->updatePosVehicle();
         g->updatePosPeople();
+        g->updatePosVehicle2();
         g->characterIsDead();
-
-        Sleep(10);
+        
+        //NHỊP ĐỘ GAME
+        
+        switch (g->getLevel())
+        {
+        case 0:
+            Sleep(100);
+        case 1:
+            Sleep(80);
+        }
+        
 
     }
 
@@ -480,11 +487,6 @@ void subThread(Game* g, bool* IS_RUNNING, bool* IS_PAUSE, bool* sound)
         //xử lý gì đây :)
         system("cls");
         Console handle;
-        /*g->drawCRGameBoard(5, 4);
-        g->drawGame();
-        handle.GotoXY(0, 0);
-        cout << g->gameOver;*/
-
         for (int i = 0; i < g->GAMEOVER.size(); i++)
         {
             handle.GotoXY((consoleWidth - g->GAMEOVER[0].size()) / 2, 5 + i);
@@ -535,11 +537,6 @@ void Game::drawGame()
     }
 
 
-    //cout lvl mấy ra.
-
-   /* handle.GotoXY(0, 0);
-    cout << "LEVEL " << *lvl;*/
-
 }
 
 
@@ -555,6 +552,7 @@ void Game::updatePosPeople()
     form.push_back("/ \\");
 
 
+    handle.TextColor(LIGHT_AQUA);
     for (int i = 0; i < 3; i++)
     {
         handle.GotoXY(oldX, oldY + i);
@@ -585,47 +583,77 @@ void Game::updatePosVehicle()
     //    V.setMoveCount(1);
     //    stopTime = 10;
 
+    Console handle;
+
     V.updateMoveCount();
-    switch(*lvl)
+    if (V.getMoveCount() <= 15)
     {
-    case 0:
-    {
-        if (V.getMoveCount() <= 99) //Số này càng giảm xe chạy càng nhanh
-            return;
-    }
-    case 1:
-    {
-        if (V.getMoveCount() <= 89)
-            return;
-    }
-    case 2:
-    {
-        if (V.getMoveCount() <= 79)
-            return;
-    }
-    case 3:
-    {
-        if (V.getMoveCount() <= 69)
-            return;
-    }
-    case 4:
-    {
-        if (V.getMoveCount() <= 59)
-            return;
-    }
-    case 5:
-    {
-        if (V.getMoveCount() <= 29)
-            return;
-    }
+        redLight();
+        return;
     }
 
-    Console handle;
+    //V.updateMoveCount();
+    //switch(*lvl)
+    //{
+    //case 0:
+    //{
+    //    if (V.getMoveCount() <= 145)//Số này càng giảm xe chạy càng nhanh
+    //    { 
+    //        redLight();
+    //        return;
+    //    }
+    //}
+    //case 1:
+    //{
+    //    if (V.getMoveCount() <= 140)
+    //    {
+    //        redLight();
+    //        return;
+    //    }
+    //}
+    //case 2:
+    //{
+    //    if (V.getMoveCount() <= 135)
+    //    {
+    //        redLight();
+    //        return;
+    //    }
+    //}
+    //case 3:
+    //{
+    //    if (V.getMoveCount() <= 130)
+    //    {
+    //        redLight();
+    //        return;
+    //    }
+    //}
+    //case 4:
+    //{
+    //    if (V.getMoveCount() <= 125)
+    //    {
+    //        redLight();
+    //        return;
+    //    }
+    //}
+    //case 5:
+    //{
+    //    if (V.getMoveCount() <= 120)
+    //    {
+    //        redLight();
+    //        return;
+    //    }
+    //}
+    //}
+
+    
     vector<string> form;
     form.push_back(" __/  |_\\_    ");
     form.push_back("|  _     _``-.");
     form.push_back("'-(_)---(_)--'");
     int vX, vY = V.getY();
+    //XE 1
+   
+    greenLight();
 
     for (int i = 0; i < 3; i++)
     {
@@ -644,7 +672,6 @@ void Game::updatePosVehicle()
         handle.GotoXY(vX, vY + i);
         cout << form[i];
     }
-
 }
 
 
@@ -656,6 +683,74 @@ bool Game::characterIsDead()
     if (P.isImpact(&V));
 
     return P.isDead();
+}
 
 
+void Game::updatePosVehicle2()
+{
+    if (V.getX() < 6 + 30)
+    {
+        if(flag==false)
+            return;
+    }
+    else
+        flag = true;
+
+
+    V.updateMoveCount2();
+    if (V.getMoveCount2() <= 15)
+        return;
+
+    Console handle;
+    vector<string> form;
+    form.push_back(" __/  |_\\_    ");
+    form.push_back("|  _     _``-.");
+    form.push_back("'-(_)---(_)--'");
+    int vX, vY = V.getY();
+
+    //XE 1
+    for (int i = 0; i < 3; i++)
+    {
+        vX = V.getX2(); //
+        handle.GotoXY(vX, vY + i);
+        cout << "              ";
+    }
+
+    V.setX2(vX + 1);
+    if (V.getX2() + 14 >= 79)
+        V.setX2(6);
+
+    for (int i = 0; i < 3; i++)
+    {
+        vX = V.getX2();
+        handle.GotoXY(vX, vY + i);
+        cout << form[i];
+    }
+}
+
+
+
+
+void Game::redLight()
+{
+    Console handle;
+    handle.GotoXY(78, 5);
+    handle.TextColor(LIGHT_RED);
+    cout << "*";
+    handle.TextColor(LIGHT_AQUA);
+}
+
+void Game::greenLight()
+{
+    Console handle;
+    handle.GotoXY(78, 5);
+    handle.TextColor(LIGHT_GREEN);
+    cout << "*";
+    handle.TextColor(LIGHT_AQUA);
+}
+
+
+int Game::getLevel()
+{
+    return *lvl;
 }

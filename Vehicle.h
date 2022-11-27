@@ -14,10 +14,12 @@ public:
 	int mSpeed;
 
 private:
-	int mX, mY;
+	int mX,mX2;
+	int mY;
 	vector <string> form;
 	
 	int moveCount;
+	int moveCount2;
 
 public:
 	Vehicle();
@@ -31,8 +33,16 @@ public:
 	void setX(int);
 	void setY(int);
 
+	int getX2();
+	void setX2(int);
+
+
 	int getMoveCount();
 	void setMoveCount(int);
+
+	int getMoveCount2();
+	void setMoveCount2(int);
+	void updateMoveCount2();
 	
 
 	void deDraw();

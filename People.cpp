@@ -340,6 +340,12 @@ bool People::isImpact(Vehicle* v)
 					mDead = true;
 					return true;
 				}
+			if (i >= v->getX2() && i <= v->getX2() + 13)
+				if (j >= v->getY() && j <= v->getY() + 2)
+				{
+					mDead = true;
+					return true;
+				}
 		}
 	return false;
 }

@@ -47,6 +47,7 @@ private:
 	Vehicle V;
 	bool* sound;
 	int* lvl = new int;
+	bool flag;
 	
 	
 	
@@ -64,9 +65,13 @@ public:
 	void drawGame();
 	void updatePosPeople();
 	void updatePosVehicle();
+	void updatePosVehicle2();
 
 
 	bool characterIsDead();
+	void redLight();
+	void greenLight();
+	int getLevel();
 
 
 
