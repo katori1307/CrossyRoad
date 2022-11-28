@@ -1,6 +1,4 @@
-﻿
-#include "Game.h"
-
+﻿#include "Game.h"
 
 void Game::drawCRGameBoard(int x, int y)
 {
@@ -68,7 +66,6 @@ void Game::drawCRGameBoard(int x, int y)
         cout << tutorial[i];
     }
 
-
     handle->GotoXY(Xtutorial + tutorial[0].size(), Ytutorial);
     cout << *lvl;
 
@@ -83,7 +80,6 @@ void Game::drawCRGameBoard(int x, int y)
         cout << levelTitle[i];
     }
 }
-
 
 void Game::exitGame(thread* t, bool* IS_RUNNING)
 {
@@ -105,8 +101,6 @@ void Game::movePeople(int input)
     if (input == 68) //D
         P.Right();
 }
-
-
 
 void Launch()
 {
@@ -157,7 +151,6 @@ void Launch()
         handle.GotoXY((consoleWidth - menu[1].length()) / 2, consoleHeight / 5 + 8 + i);
         cout << menu[i];
     }
-
 
     //Các biến cần chuẩn bị
     int optionX = (consoleWidth - menu[1].length()) / 2;
@@ -257,8 +250,6 @@ void Launch()
                 handle.GotoXY((consoleWidth - menu[1].length()) / 2, consoleHeight / 5 + 8 + i);
                 cout << menu[i];
             }
-
-
         }
         //User chưa nhấn "E"
         handle.GotoXY(optionX, optionY + line); //Đổi màu option mà user chưa chọn thành màu bthg
@@ -309,14 +300,12 @@ Game::~Game()
 
 }
 
-
 void startLevel(int* lvl, bool* sound)
 {
     system("cls");
     Game g(lvl, sound);
     g.Start();
 }
-
 
 void Game::Start()
 {
@@ -378,7 +367,6 @@ void Game::Start()
                 }
             }
         }
-
         // Input = ESC
         if (input == 27)
         {
@@ -387,7 +375,6 @@ void Game::Start()
             exitGame(&sThread, &isRunning);
             break;
         }
-
         //input = L
         if (input == 76)
         {
@@ -442,7 +429,6 @@ void Game::Start()
     }
 }
 
-
 void subThread(Game* g, bool* IS_RUNNING, bool* IS_PAUSE, bool* sound)
 {
     //chỗ này là sound thread
@@ -454,17 +440,18 @@ void subThread(Game* g, bool* IS_RUNNING, bool* IS_PAUSE, bool* sound)
     while (*IS_RUNNING && !g->characterIsDead())
     {
         while (*IS_PAUSE);
-
         g->updatePosVehicle();
         g->updatePosPeople();
         g->updatePosVehicle2();
         g->characterIsDead();
         g->updatePosHeli();
         g->updatePosHeli2();
-
-        
+        g->updatePosBird();
+        g->updatePosBird2();
+        g->updatePosCat();
+        g->updatePosCat2();
+        g->updatePosCat3();
         //NHỊP ĐỘ GAME
-        
         switch (g->getLevel())
         {
         case 0:
@@ -473,9 +460,7 @@ void subThread(Game* g, bool* IS_RUNNING, bool* IS_PAUSE, bool* sound)
         case 1:
             Sleep(80);
         }
-        
     }
-
     //Xử lý khi characterIsDead == true;
     if (g->characterIsDead())
     {
@@ -494,9 +479,7 @@ void subThread(Game* g, bool* IS_RUNNING, bool* IS_PAUSE, bool* sound)
         cout << g->afterLose;
 
     }
-
 }
-
 
 void Game::drawGame()
 {
@@ -505,8 +488,6 @@ void Game::drawGame()
     //system("cls");
 
     drawCRGameBoard(5, 4);
-
-
 
     //vẽ người
     vector<string> formP;
@@ -542,7 +523,6 @@ void Game::drawGame()
     }
 }
 
-
 void Game::updatePosPeople()
 {
     Console handle;
@@ -572,7 +552,6 @@ void Game::updatePosPeople()
     oldY = newY;
 }
 
-
 void Game::updatePosVehicle()
 {
     Console handle;
@@ -598,7 +577,7 @@ void Game::updatePosVehicle()
     }
 
     V.setX(vX + 1);
-    if (V.getX() + 14 >= 79)
+    if (V.getX() + form[0].length() >= 79)
         V.setX(6);
 
     for (int i = 0; i < 3; i++)
@@ -615,7 +594,9 @@ bool Game::characterIsDead()
         return true;
     //Hàm xử lý va chạm
     P.isImpact(&V);
-
+    P.isImpactH(&H);
+    P.isImpactB(&B);
+    P.isImpactC(&C);
     return P.isDead();
 }
 
@@ -628,7 +609,6 @@ void Game::updatePosVehicle2()
     }
     else
         flag = true;
-
 
     V.updateMoveCount2();
     if (V.getMoveCount2() <= 15)
@@ -649,7 +629,7 @@ void Game::updatePosVehicle2()
     }
 
     V.setX2(vX + 1);
-    if (V.getX2() + 14 >= 79)
+    if (V.getX2() + form[0].length() >= 79)
         V.setX2(6);
 
     for (int i = 0; i < 3; i++)
@@ -701,20 +681,16 @@ void Game::updatePosHeli()
     form.push_back("*>=====[_]L)  ");
     form.push_back("      -'-`-   ");
     int vX, vY = H.getY();
-
     greenLight();
-
     for (int i = 0; i < 3; i++)
     {
         vX = H.getX(); //
         handle.GotoXY(vX, vY + i);
         cout << "              ";
     }
-
     H.setX(vX + 1);
-    if (H.getX() + 14 >= 79)
+    if (H.getX() + form[0].length() >= 79)
         H.setX(6);
-
     for (int i = 0; i < 3; i++)
     {
         vX = H.getX();
@@ -732,11 +708,9 @@ void Game::updatePosHeli2()
     }
     else
         flag = true;
-
     H.updateMoveCount2();
     if (H.getMoveCount2() <= 15)
         return;
-
     Console handle;
     vector<string> form;
     form.push_back("   -----|-----");
@@ -750,11 +724,9 @@ void Game::updatePosHeli2()
         handle.GotoXY(vX, vY + i);
         cout << "              ";
     }
-
     H.setX2(vX + 1);
-    if (H.getX2() + 14 >= 79)
+    if (H.getX2() + form[0].length() >= 79)
         H.setX2(6);
-
     for (int i = 0; i < 3; i++)
     {
         vX = H.getX2();
@@ -762,3 +734,150 @@ void Game::updatePosHeli2()
         cout << form[i];
     }
 }
+
+void Game::updatePosBird()
+{
+    Console handle;
+    vector<string> form;
+    form.push_back("___( o)>");
+    form.push_back("\ <_. ) ");
+    form.push_back(" `---'  ");
+    int vX, vY = B.getY();
+    for (int i = 0; i < 3; i++)
+    {
+        vX = B.getX();
+        handle.GotoXY(vX, vY + i);
+        cout << "        ";
+    }
+    B.setX(vX + 1);
+    if (B.getX() + form[0].length() >= 79)
+        B.setX(6);
+    for (int i = 0; i < 3; i++)
+    {
+        vX = B.getX();
+        handle.GotoXY(vX, vY + i);
+        cout << form[i];
+    }
+}
+
+void Game::updatePosBird2()
+{
+    if (B.getX() < 28)
+    {
+        if (flagB == false)
+            return;
+    }
+    else
+        flagB = true;
+    Console handle;
+    vector<string> form;
+    form.push_back("___( o)>");
+    form.push_back("\ <_. ) ");
+    form.push_back(" `---'  ");
+    int vX, vY = B.getY();
+    for (int i = 0; i < 3; i++)
+    {
+        vX = B.getX2();
+        handle.GotoXY(vX, vY + i);
+        cout << "        ";
+    }
+    B.setX2(vX + 1);
+    if (B.getX2() + form[0].length() >= 79)
+        B.setX2(6);
+    for (int i = 0; i < 3; i++)
+    {
+        vX = B.getX2();
+        handle.GotoXY(vX, vY + i);
+        cout << form[i];
+    }
+}
+
+void Game::updatePosCat()
+{
+    Console handle;
+    vector<string> form;
+    form.push_back(" /\\_/\\ ");
+    form.push_back("( o.o )");
+    form.push_back(" > ^ < ");
+    int vX, vY = C.getY();
+    for (int i = 0; i < 3; i++)
+    {
+        vX = C.getX();
+        handle.GotoXY(vX, vY + i);
+        cout << "        ";
+    }
+    C.setX(vX + 1);
+    if (C.getX() + form[0].length() >= 79)
+        C.setX(6);
+    for (int i = 0; i < 3; i++)
+    {
+        vX = C.getX();
+        handle.GotoXY(vX, vY + i);
+        cout << form[i];
+    }
+}
+
+void Game::updatePosCat2()
+{
+    if (C.getX() < 23)
+    {
+        if (flagC == false)
+            return;
+    }
+    else
+        flagC = true;
+    Console handle;
+    vector<string> form;
+    form.push_back(" /\\_/\\ ");
+    form.push_back("( o.o )");
+    form.push_back(" > ^ < ");
+    int vX, vY = C.getY();
+    for (int i = 0; i < 3; i++)
+    {
+        vX = C.getX2();
+        handle.GotoXY(vX, vY + i);
+        cout << "        ";
+    }
+    C.setX2(vX + 1);
+    if (C.getX2() + form[0].length() >= 79)
+        C.setX2(6);
+    for (int i = 0; i < 3; i++)
+    {
+        vX = C.getX2();
+        handle.GotoXY(vX, vY + i);
+        cout << form[i];
+    }
+}
+
+void Game::updatePosCat3()
+{
+    if (C.getX() < 46)
+    {
+        if (flagC2 == false)
+            return;
+    }
+    else
+        flagC2 = true;
+    Console handle;
+    vector<string> form;
+    form.push_back(" /\\_/\\ ");
+    form.push_back("( o.o )");
+    form.push_back(" > ^ < ");
+    int vX, vY = C.getY();
+    for (int i = 0; i < 3; i++)
+    {
+        vX = C.getX3();
+        handle.GotoXY(vX, vY + i);
+        cout << "        ";
+    }
+    C.setX3(vX + 1);
+    if (C.getX3() + form[0].length() >= 79)
+        C.setX3(6);
+    for (int i = 0; i < 3; i++)
+    {
+        vX = C.getX3();
+        handle.GotoXY(vX, vY + i);
+        cout << form[i];
+    }
+}
+

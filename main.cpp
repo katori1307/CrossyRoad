@@ -48,7 +48,7 @@ int main()
 	
 	
 
-	system("pause");
+	
 	
 	
 

@@ -7,6 +7,7 @@
 #include "Vehicle.h"
 #include <vector>
 #include "Helicopter.h"
+#include "Animal.h"
 
 #define BLACK 0
 #define AQUA 3
@@ -41,20 +42,18 @@ public:
 	string afterLose = "PRESS Y TO CONTINUE, N TO END";
 	string pausing = "GAME PAUSE";
 	vector<string> GAMEOVER;
-
 private:
 	People P;
 	int oldX, oldY;
 	Vehicle V;
 	Helicopter H;
+	Bird B;
+	Cat C;
 	bool* sound;
 	int* lvl = new int;
 	bool flag;
-	
-	
-	
-
-
+	bool flagB;
+	bool flagC, flagC2;
 public:
 
 	Game();
@@ -64,7 +63,6 @@ public:
 	void exitGame(thread* t, bool* IS_RUNNING);
 
 	void movePeople(int input);
-
 
 	void Start();
 	void drawGame();
@@ -81,6 +79,13 @@ public:
 	bool characterIsDead();
 	void redLight();
 	void greenLight();
+
+	void updatePosBird();
+	void updatePosBird2();
+	void updatePosBird3();
+	void updatePosCat();
+	void updatePosCat2();
+	void updatePosCat3();
 	
 
 

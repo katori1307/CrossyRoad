@@ -349,3 +349,73 @@ bool People::isImpact(Vehicle* v)
 		}
 	return false;
 }
+
+bool People::isImpactH(Helicopter* h)
+{
+	for (int i = mX; i < mX + 3; i++)
+		for (int j = mY; j < mY + 3; j++)
+		{
+			if (i >= h->getX() && i <= h->getX() + 13)
+				if (j >= h->getY() && j <= h->getY() + 2)
+				{
+					mDead = true;
+					return true;
+				}
+			if (i >= h->getX2() && i <= h->getX2() + 13)
+				if (j >= h->getY() && j <= h->getY() + 2)
+				{
+					mDead = true;
+					return true;
+				}
+		}
+	return false;
+}
+
+bool People::isImpactB(Bird* b)
+{
+	for (int i = mX; i < mX + 3; i++)
+		for (int j = mY; j < mY + 3; j++)
+		{
+			if (i >= b->getX() && i <= b->getX() + 7)
+				if (j >= b->getY() && j <= b->getY() + 2)
+				{
+					mDead = true;
+					return true;
+				}
+			if (i >= b->getX2() && i <= b->getX2() + 7)
+				if (j >= b->getY() && j <= b->getY() + 2)
+				{
+					mDead = true;
+					return true;
+				}
+		}
+	return false;
+}
+
+
+bool People::isImpactC(Cat* c)
+{
+	for (int i = mX; i < mX + 3; i++)
+		for (int j = mY; j < mY + 3; j++)
+		{
+			if (i >= c->getX() && i <= c->getX() + 6)
+				if (j >= c->getY() && j <= c->getY() + 2)
+				{
+					mDead = true;
+					return true;
+				}
+			if (i >= c->getX2() && i <= c->getX2() + 6)
+				if (j >= c->getY() && j <= c->getY() + 2)
+				{
+					mDead = true;
+					return true;
+				}
+			if (i >= c->getX3() && i <= c->getX3() + 6)
+				if (j >= c->getY() && j <= c->getY() + 2)
+				{
+					mDead = true;
+					return true;
+				}
+		}
+	return false;
+}

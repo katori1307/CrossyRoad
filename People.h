@@ -4,7 +4,8 @@
 #include "Console.h"
 #include <vector>
 #include "Vehicle.h"
-
+#include "Animal.h"
+#include "Helicopter.h"
 
 
 class People
@@ -47,6 +48,9 @@ public:
 
 
 	bool isImpact(Vehicle* v);
+	bool isImpactH(Helicopter* h);
+	bool isImpactB(Bird* b);
+	bool isImpactC(Cat* c);
 	void reDrawLineWhenMoveUPDOWN();
 	void reDrawLineWhenMoveRIGHT();
 	void reDrawLineWhenMoveLEFT();
