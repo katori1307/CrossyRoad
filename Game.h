@@ -42,6 +42,13 @@ public:
 	string afterLose = "PRESS Y TO CONTINUE, N TO END";
 	string pausing = "GAME PAUSE";
 	vector<string> GAMEOVER;
+	vector<string> ONE;
+	vector<string> TWO;
+	vector<string> THREE;
+	vector<string> FOUR;
+	vector<string> ZERO;
+
+
 private:
 	People P;
 	int oldX, oldY;

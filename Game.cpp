@@ -56,8 +56,8 @@ void Game::drawCRGameBoard(int x, int y)
         }
         Sleep(500);
     }
-    string tutorial[] = { "LEVEL ","W,A,S,D to move","ESC to exit","L to load","ESC to exit" };
-    int Xtutorial = 83 + (117 - 83 - tutorial[0].size()) / 2;
+    string tutorial[] = { "LEVEL ","W,A,S,D to move","ESC to exit","L to load","P to pause/ unpause","ESC to exit"};
+    int Xtutorial = 83 + (117 - 83 - tutorial[4].size()) / 2 + 3;
     int Ytutorial = 4 + 12;
     handle->TextColor(YELLOW);
     for (int i = 0; i < 5; i++)
@@ -65,10 +65,58 @@ void Game::drawCRGameBoard(int x, int y)
         handle->GotoXY(Xtutorial, Ytutorial + i);
         cout << tutorial[i];
     }
-
     handle->GotoXY(Xtutorial + tutorial[0].size(), Ytutorial);
     cout << *lvl;
-
+    switch (*lvl)
+    {
+    case 0:
+    {
+        for (int i = 0; i < ZERO.size(); i++)
+        {
+            handle->GotoXY(111, 4 + 1 + i);
+            cout << ZERO[i];
+        }
+        break;
+    }
+    case 1:
+    {
+        for (int i = 0; i < ONE.size(); i++)
+        {
+            handle->GotoXY(111, 4 + 1 + i);
+            cout << ONE[i];
+        }
+        break;
+    }
+    case 2:
+    {
+        for (int i = 0; i < TWO.size(); i++)
+        {
+            handle->GotoXY(111, 4 + 1 + i);
+            cout << TWO[i];
+        }
+        break;
+    }
+    case 3:
+    {
+        for (int i = 0; i < THREE.size(); i++)
+        {
+            handle->GotoXY(111, 4 + 1 + i);
+            cout << THREE[i];
+        }
+        break;
+    }
+    case 4:
+    {
+        for (int i = 0; i < FOUR.size(); i++)
+        {
+            handle->GotoXY(111, 4 + 1 + i);
+            cout << FOUR[i];
+        }
+        break;
+    }
+    default:
+        break;
+    }
     vector<string> levelTitle;
     levelTitle.push_back("  _    _____   _____ _    ");
     levelTitle.push_back(" | |  | __\\ \\ / / __| |   ");
@@ -76,7 +124,7 @@ void Game::drawCRGameBoard(int x, int y)
     levelTitle.push_back(" |____|___| \\_/ |___|____|");
     for (int i = 0; i < levelTitle.size(); i++)
     {
-        handle->GotoXY(83 + (117 - 83 - levelTitle[0].size()) / 2, 4 + 1 + i);
+        handle->GotoXY(83 + (117 - 83 - levelTitle[0].size()) / 2 - 3, 4 + 1 + i);
         cout << levelTitle[i];
     }
 }
@@ -293,6 +341,26 @@ Game::Game(int* level, bool* sound)
     GAMEOVER.push_back("  / __| /_\\ |  \\/  | __|  / _ \\ \\ / / __| _ \\");
     GAMEOVER.push_back(" | (_ |/ _ \\| |\\/| | _|  | (_) \\ V /| _||   /");
     GAMEOVER.push_back("  \\___/_/ \\_\\_|  |_|___|  \\___/ \\_/ |___|_|_\\");
+    ONE.push_back(" _ ");
+    ONE.push_back("/ |");
+    ONE.push_back("| |");
+    ONE.push_back("|_|");
+    TWO.push_back(" ___ ");
+    TWO.push_back("|_  )");
+    TWO.push_back(" / / ");
+    TWO.push_back("/___|");
+    THREE.push_back(" ____");
+    THREE.push_back("|__ /");
+    THREE.push_back(" |_ \\");
+    THREE.push_back("|___/");
+    FOUR.push_back(" _ _  ");
+    FOUR.push_back("| | | ");
+    FOUR.push_back("|_  _|");
+    FOUR.push_back("  |_| ");
+    ZERO.push_back("  __  ");
+    ZERO.push_back(" /  \\ ");
+    ZERO.push_back("| () |");
+    ZERO.push_back(" \\__/ ");
 }
 
 Game::~Game()
@@ -452,14 +520,20 @@ void subThread(Game* g, bool* IS_RUNNING, bool* IS_PAUSE, bool* sound)
         g->updatePosCat2();
         g->updatePosCat3();
         //NHỊP ĐỘ GAME
-        switch (g->getLevel())
+        Sleep(10); // sau khi test chỉnh về hàm switch bên dưới
+       /* switch (g->getLevel())
         {
         case 0:
-            //Sleep(100); sau khi test chỉnh về 100
-            Sleep(10);
+            Sleep(100); 
         case 1:
             Sleep(80);
-        }
+        case 2:
+            Sleep(70);
+        case 3:
+            Sleep(60);
+        case 4:
+            Sleep(50);
+        }*/
     }
     //Xử lý khi characterIsDead == true;
     if (g->characterIsDead())
