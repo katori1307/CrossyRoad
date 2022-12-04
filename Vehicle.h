@@ -5,7 +5,6 @@
 //#include "People.h" //syntax error nè
 using namespace std;
 
-
 class Vehicle
 {
 public:

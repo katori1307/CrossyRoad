@@ -1,6 +1,4 @@
-
 #include "Vehicle.h"
-
 
 Vehicle::Vehicle()
 {
@@ -16,7 +14,6 @@ Vehicle::~Vehicle()
 
 }
 
-
 void Vehicle::Draw()
 {
 	Console handle;
@@ -28,7 +25,6 @@ void Vehicle::Draw()
 	}
 }
 
-
 void Vehicle::deDraw()
 {
 	Console handle;
@@ -39,7 +35,6 @@ void Vehicle::deDraw()
 		cout << "              ";
 	}
 }
-
 
 void Vehicle::Move()
 {
@@ -86,7 +81,6 @@ void Vehicle::setX2(int x)
 {
 	mX2 = x;
 }
-
 
 void Vehicle::updateMoveCount()
 {

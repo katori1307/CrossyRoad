@@ -1,4 +1,5 @@
 #pragma once
+#pragma comment (lib,"winmm.lib")
 #include "Console.h"
 #include "People.h"
 #include <thread>
@@ -8,6 +9,7 @@
 #include <vector>
 #include "Helicopter.h"
 #include "Animal.h"
+#include <fstream>
 
 #define BLACK 0
 #define AQUA 3
@@ -18,20 +20,9 @@
 #define LIGHT_AQUA 11
 #define LIGHT_RED 12
 #define LIGHT_YELLOW 14
-
-
-
-
-
-
 using namespace std;
-
 //4 goc man hinh option la A(83,4) B(117,4) C(83,24) D(117,24)
 //4 goc man hinh game: A(5,4) B(79,4) C(5,24) D(79,24)
-
-
-
-
 
 class Game
 {
@@ -47,8 +38,6 @@ public:
 	vector<string> THREE;
 	vector<string> FOUR;
 	vector<string> ZERO;
-
-
 private:
 	People P;
 	int oldX, oldY;
@@ -62,9 +51,9 @@ private:
 	bool flagB;
 	bool flagC, flagC2;
 public:
-
 	Game();
 	Game(int* level, bool* sound);
+	Game(int* level, bool* sound, int);
 	~Game();
 	void drawCRGameBoard(int x, int y);
 	void exitGame(thread* t, bool* IS_RUNNING);
@@ -76,7 +65,6 @@ public:
 	int getLevel();
 
 	void updatePosPeople();
-
 	void updatePosVehicle();
 	void updatePosVehicle2();
 
@@ -93,12 +81,10 @@ public:
 	void updatePosCat();
 	void updatePosCat2();
 	void updatePosCat3();
-	
 
 
-
-
-	
+	string saveGame();
+	void loadFileGame(string);
 };
 
 void subThread(Game* g, bool* IS_RUNNING, bool* IS_PAUSE, bool* sound);

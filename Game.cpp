@@ -1,5 +1,6 @@
 ﻿#include "Game.h"
 
+
 void Game::drawCRGameBoard(int x, int y)
 {
     Console* handle = new Console;
@@ -56,11 +57,11 @@ void Game::drawCRGameBoard(int x, int y)
         }
         Sleep(500);
     }
-    string tutorial[] = { "LEVEL ","W,A,S,D to move","ESC to exit","L to load","P to pause/ unpause","ESC to exit"};
+    string tutorial[] = { "LEVEL ","W,A,S,D to move","ESC to exit","L to save","P to pause/ unpause","T to load","ESC to exit"};
     int Xtutorial = 83 + (117 - 83 - tutorial[4].size()) / 2 + 3;
     int Ytutorial = 4 + 12;
     handle->TextColor(YELLOW);
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 7; i++)
     {
         handle->GotoXY(Xtutorial, Ytutorial + i);
         cout << tutorial[i];
@@ -262,6 +263,14 @@ void Launch()
             {
                 system("cls");
                 //xử lý sau
+                string path;
+                cout << "Enter path: \n";
+                getline(cin, path);
+                Game g2(&lvl, &sound, 0);
+                g2.loadFileGame(path);
+
+                isContinue = true;
+
                 break;
             }
             case 3: //settings: chưa xử lý xong
@@ -363,6 +372,12 @@ Game::Game(int* level, bool* sound)
     ZERO.push_back(" \\__/ ");
 }
 
+Game::Game(int* level, bool* sound, int x)
+{
+    this->lvl = level;
+    this->sound = sound;
+}
+
 Game::~Game()
 {
 
@@ -373,6 +388,7 @@ void startLevel(int* lvl, bool* sound)
     system("cls");
     Game g(lvl, sound);
     g.Start();
+    *lvl = g.getLevel();
 }
 
 void Game::Start()
@@ -446,7 +462,38 @@ void Game::Start()
         //input = L
         if (input == 76)
         {
+            //xử lý save game
+            exitGame(&sThread, &isRunning);
+            string path;
+            path = saveGame();
+            handle.GotoXY(0, 0);
+            cout << "Press Y to continue, N to end\n";
+            while (1)
+            {
+                int tempInput = toupper(_getch());
+                if (tempInput == 89)
+                {
+                    //loadGameFile();
+                    loadFileGame(path);
+                }
+                else if (tempInput != 78)
+                    continue;
+                break;
+            }
+            break;
+        }
+
+        if (input == 84)
+        {
             //xử lý load game
+            exitGame(&sThread, &isRunning);
+            drawGame();
+            handle.GotoXY(0, 0);
+            cout << "Loading\n";
+            string path;
+            cout << "Enter path: ";
+            getline(cin, path);
+            loadFileGame(path);
         }
 
         //user di chuyển nhân vật
@@ -501,10 +548,8 @@ void subThread(Game* g, bool* IS_RUNNING, bool* IS_PAUSE, bool* sound)
 {
     //chỗ này là sound thread
     int fogCounter = 0;
-
     bool move = true;
     bool fog = true;
-
     while (*IS_RUNNING && !g->characterIsDead())
     {
         while (*IS_PAUSE);
@@ -520,7 +565,7 @@ void subThread(Game* g, bool* IS_RUNNING, bool* IS_PAUSE, bool* sound)
         g->updatePosCat2();
         g->updatePosCat3();
         //NHỊP ĐỘ GAME
-        Sleep(10); // sau khi test chỉnh về hàm switch bên dưới
+        Sleep(100); // sau khi test chỉnh về hàm switch bên dưới
        /* switch (g->getLevel())
         {
         case 0:
@@ -546,12 +591,10 @@ void subThread(Game* g, bool* IS_RUNNING, bool* IS_PAUSE, bool* sound)
             handle.GotoXY((consoleWidth - g->GAMEOVER[0].size()) / 2, 5 + i);
             cout << g->GAMEOVER[i];
         }
-
-        handle.GotoXY((consoleWidth - g->gameOver.size()) / 2, consoleHeight / 2 -1);
-        cout << g->gameOver;
+        /*handle.GotoXY((consoleWidth - g->gameOver.size()) / 2, consoleHeight / 2 -1);
+        cout << g->gameOver;*/
         handle.GotoXY((consoleWidth - g->afterLose.size()) / 2, consoleHeight / 2 - 3);
         cout << g->afterLose;
-
     }
 }
 
@@ -667,10 +710,14 @@ bool Game::characterIsDead()
     if (P.isDead())
         return true;
     //Hàm xử lý va chạm
-    P.isImpact(&V);
-    P.isImpactH(&H);
-    P.isImpactB(&B);
-    P.isImpactC(&C);
+    if (P.isImpact(&V))
+        PlaySound(TEXT("Crash.wav"), NULL, SND_FILENAME);
+    if(P.isImpactH(&H))
+        PlaySound(TEXT("Crash.wav"), NULL, SND_FILENAME);
+    if(P.isImpactB(&B))
+        PlaySound(TEXT("Duck.wav"), NULL, SND_FILENAME);
+    if(P.isImpactC(&C))
+        PlaySound(TEXT("CatMeow.wav"), NULL, SND_FILENAME);
     return P.isDead();
 }
 
@@ -955,3 +1002,35 @@ void Game::updatePosCat3()
     }
 }
 
+string Game::saveGame()
+{
+    Console handle;
+    drawGame();
+    handle.TextColor(YELLOW);
+    handle.GotoXY(92, 11);
+    cout << "Saving\n";
+    string path;
+    handle.GotoXY(92, 12);
+    cout << "Enter path: \n";
+    handle.GotoXY(105, 12);
+    getline(cin, path);
+    ofstream file;
+    file.open(path, ios::binary);
+    file.write((char*)lvl, sizeof(int));
+    file.close();
+    handle.TextColor(LIGHT_AQUA);
+    return path;
+}
+
+void Game::loadFileGame(string path)
+{
+    ifstream file;
+    file.open(path, ios::binary);
+    if (!file.is_open())
+        return;
+    Game g(lvl, sound);
+    file.read((char*)lvl, sizeof(int));
+    file.close();
+    system("cls");
+    g.Start();
+}
