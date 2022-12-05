@@ -291,7 +291,21 @@ void Launch()
                 cout << "Enter path: \n";
                 getline(cin, path);
                 Game g2(&lvl, &sound, 0);
-                g2.loadFileGame(path);
+                if (!g2.loadFileGame(path))
+                {
+                    while (1)
+                    {
+                        string temp[] = { "Load game doesnt exist" ,"Press any key to continue" };
+                        handle.GotoXY((consoleWidth-temp[0].size()) / 2, consoleHeight / 2 - 5);
+                        cout << temp[0];
+                        handle.GotoXY((consoleWidth - temp[0].size()) / 2, consoleHeight / 2 - 4);
+                        cout << temp[1];
+                        
+                        int tempInput = toupper(_getch());
+                        if (tempInput >= 0 && tempInput <= 127)
+                            break;
+                    }
+                }
 
                 isContinue = true;
 
@@ -1084,12 +1098,12 @@ string Game::saveGame()
 //    g.Start();
 //}
 
-void Game::loadFileGame(string path) //đang làm
+bool Game::loadFileGame(string path) //đang làm
 {
     ifstream file;
     file.open(path);
     if (!file.is_open())
-        return;
+        return false;
     Game g(lvl, sound);
     file >> (*lvl);
     system("cls");

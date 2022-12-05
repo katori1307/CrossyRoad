@@ -85,7 +85,7 @@ public:
 
 
 	string saveGame();
-	void loadFileGame(string);
+	bool loadFileGame(string);
 };
 
 void subThread(Game* g, bool* IS_RUNNING, bool* IS_PAUSE, bool* sound);
