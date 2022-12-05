@@ -14,7 +14,6 @@ void Game::drawCRGameBoard(int x, int y)
         cout << char(61);
         Sleep(10);
     }
-
     //in 2 cột dọc màn hình game
     for (int i = y; i < Game::BOARD_HEIGHT; i++)
     {
@@ -24,7 +23,6 @@ void Game::drawCRGameBoard(int x, int y)
         cout << char(41);
         Sleep(10);
     }
-
     handle->TextColor(LIGHT_RED);
     //in 2 hàng ngang màn hình option
     for (int i = 0; i < 34; i++)
@@ -68,6 +66,32 @@ void Game::drawCRGameBoard(int x, int y)
     }
     handle->GotoXY(Xtutorial + tutorial[0].size(), Ytutorial);
     cout << *lvl;
+    vector<string> GAMEOVER;
+    vector<string> ONE;
+    vector<string> TWO;
+    vector<string> THREE;
+    vector<string> FOUR;
+    vector<string> ZERO;
+    ONE.push_back(" _ ");
+    ONE.push_back("/ |");
+    ONE.push_back("| |");
+    ONE.push_back("|_|");
+    TWO.push_back(" ___ ");
+    TWO.push_back("|_  )");
+    TWO.push_back(" / / ");
+    TWO.push_back("/___|");
+    THREE.push_back(" ____");
+    THREE.push_back("|__ /");
+    THREE.push_back(" |_ \\");
+    THREE.push_back("|___/");
+    FOUR.push_back(" _ _  ");
+    FOUR.push_back("| | | ");
+    FOUR.push_back("|_  _|");
+    FOUR.push_back("  |_| ");
+    ZERO.push_back("  __  ");
+    ZERO.push_back(" /  \\ ");
+    ZERO.push_back("| () |");
+    ZERO.push_back(" \\__/ ");
     switch (*lvl)
     {
     case 0:
@@ -370,6 +394,7 @@ Game::Game(int* level, bool* sound)
     ZERO.push_back(" /  \\ ");
     ZERO.push_back("| () |");
     ZERO.push_back(" \\__/ ");
+    
 }
 
 Game::Game(int* level, bool* sound, int x)
@@ -494,6 +519,7 @@ void Game::Start()
             cout << "Enter path: ";
             getline(cin, path);
             loadFileGame(path);
+            break;
         }
 
         //user di chuyển nhân vật
@@ -638,6 +664,8 @@ void Game::drawGame()
         handle.GotoXY(H.getX(), H.getY() + i);
         cout << formH[i];
     }
+   
+
 }
 
 void Game::updatePosPeople()
@@ -1002,6 +1030,27 @@ void Game::updatePosCat3()
     }
 }
 
+//string Game::saveGame()
+//{
+//    Console handle;
+//    drawGame();
+//    handle.TextColor(YELLOW);
+//    handle.GotoXY(92, 11);
+//    cout << "Saving\n";
+//    string path;
+//    handle.GotoXY(92, 12);
+//    cout << "Enter path: \n";
+//    handle.GotoXY(105, 12);
+//    getline(cin, path);
+//    ofstream file;
+//    file.open(path, ios::binary);
+//    file.write((char*)lvl, sizeof(int));
+//    file.close();
+//    handle.TextColor(LIGHT_AQUA);
+//    return path;
+//}
+
+
 string Game::saveGame()
 {
     Console handle;
@@ -1015,22 +1064,34 @@ string Game::saveGame()
     handle.GotoXY(105, 12);
     getline(cin, path);
     ofstream file;
-    file.open(path, ios::binary);
-    file.write((char*)lvl, sizeof(int));
+    file.open(path);
+    file << (*lvl);
     file.close();
     handle.TextColor(LIGHT_AQUA);
     return path;
 }
 
-void Game::loadFileGame(string path)
+//void Game::loadFileGame(string path)
+//{
+//    ifstream file;
+//    file.open(path, ios::binary);
+//    if (!file.is_open())
+//        return;
+//    Game g(lvl, sound);
+//    file.read((char*)lvl, sizeof(int));
+//    file.close();
+//    system("cls");
+//    g.Start();
+//}
+
+void Game::loadFileGame(string path) //đang làm
 {
     ifstream file;
-    file.open(path, ios::binary);
+    file.open(path);
     if (!file.is_open())
         return;
     Game g(lvl, sound);
-    file.read((char*)lvl, sizeof(int));
-    file.close();
+    file >> (*lvl);
     system("cls");
-    g.Start();
+    Start();
 }

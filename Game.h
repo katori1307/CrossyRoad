@@ -38,6 +38,7 @@ public:
 	vector<string> THREE;
 	vector<string> FOUR;
 	vector<string> ZERO;
+	//int commonSize = 4;
 private:
 	People P;
 	int oldX, oldY;
