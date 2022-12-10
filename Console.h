@@ -8,11 +8,6 @@
 
 using namespace std;
 
-const int Y_START = 0;
-const int X_START = 0;
-
-
-
 class Console
 {
 
@@ -20,8 +15,6 @@ private:
 	int width;
 	int height;
 public:
-	Console();
-	~Console();
 
 	void GotoXY(int x, int y);
 	void clrscr();

@@ -12,6 +12,7 @@
 #include <fstream>
 
 #define BLACK 0
+#define BLUE 1
 #define AQUA 3
 #define RED 4
 #define YELLOW 6

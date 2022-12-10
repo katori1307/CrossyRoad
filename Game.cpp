@@ -286,9 +286,26 @@ void Launch()
             case 2: //load game: chưa xử lý xong
             {
                 system("cls");
+                int xTemp = consoleWidth/2-15;
+                for (int i = 0; i < 30; i++)
+                {
+                    handle.GotoXY(xTemp + i, consoleHeight / 2 - 7);
+                    cout << "=";
+                    handle.GotoXY(xTemp + i, consoleHeight / 2 - 1);
+                    cout << "=";
+                }
+                for (int i = 0; i < 7; i++)
+                {
+                    handle.GotoXY(xTemp, consoleHeight / 2 - 7 + i);
+                    cout << "(";
+                    handle.GotoXY(xTemp + 30, consoleHeight / 2 - 7 + i);
+                    cout << ")";
+                }
                 //xử lý sau
                 string path;
+                handle.GotoXY(consoleWidth / 2 - 10, consoleHeight / 2 - 5);
                 cout << "Enter path: \n";
+                handle.GotoXY(consoleWidth / 2 - 10 + 12, consoleHeight / 2 - 5); 
                 getline(cin, path);
                 Game g2(&lvl, &sound, 0);
                 if (!g2.loadFileGame(path))
@@ -296,11 +313,10 @@ void Launch()
                     while (1)
                     {
                         string temp[] = { "Load game doesnt exist" ,"Press any key to continue" };
-                        handle.GotoXY((consoleWidth-temp[0].size()) / 2, consoleHeight / 2 - 5);
+                        handle.GotoXY((consoleWidth-temp[0].size()) / 2, consoleHeight / 2 - 4);
                         cout << temp[0];
-                        handle.GotoXY((consoleWidth - temp[0].size()) / 2, consoleHeight / 2 - 4);
+                        handle.GotoXY((consoleWidth - temp[0].size()) / 2, consoleHeight / 2 - 3);
                         cout << temp[1];
-                        
                         int tempInput = toupper(_getch());
                         if (tempInput >= 0 && tempInput <= 127)
                             break;
@@ -314,10 +330,52 @@ void Launch()
             case 3: //settings: chưa xử lý xong
             {
                 //hàm xử lý settings
-
+                system("cls");
+                vector<string> aboutUs;
+                aboutUs.push_back("========== NHOM 3 ==========");
+                aboutUs.push_back("");
+                aboutUs.push_back("21127147 _ Vo Anh Quan");
+                aboutUs.push_back("");
+                aboutUs.push_back("21127365 _ Phan Phuoc Hai Nam");
+                aboutUs.push_back("");
+                aboutUs.push_back("21127714 _ Vu Phu Truong");
+                aboutUs.push_back("");
+                aboutUs.push_back("21127641 _ Nguyen Xuan Loc");
+                aboutUs.push_back("");
+                aboutUs.push_back("Press any key to continue");
+                handle.TextColor(BLUE);
+                int xTemp = consoleWidth / 2 - 15,yTemp = consoleHeight / 2 - 7;
+                for (int i = 0; i < 33; i++)
+                {
+                    handle.GotoXY(xTemp + i, yTemp);
+                    cout << "=";
+                    handle.GotoXY(xTemp + i, yTemp+14);
+                    cout << "=";
+                    handle.GotoXY(xTemp + i, yTemp + 11);
+                    cout << "=";
+                    
+                }
+                for (int i = 0; i < 15; i++)
+                {
+                    handle.GotoXY(xTemp, yTemp + i);
+                    cout << "(";
+                    handle.GotoXY(xTemp + 33, yTemp + i);
+                    cout << ")";
+                }
+                handle.TextColor(YELLOW);
+                for (int i = 0; i < aboutUs.size(); i++)
+                {
+                    handle.GotoXY(xTemp + 2, yTemp + 2 + i);
+                    cout << aboutUs[i];
+                }
+                while (1)
+                {
+                    int tempInput = toupper(_getch());
+                    if (tempInput >= 0 && tempInput <= 127)
+                        break;
+                }
                 break;
             }
-
             case 4: //exit
             {
                 isStop = true;
@@ -365,7 +423,6 @@ void Launch()
             else
                 line = 0;
         }
-
         if (isStop)
             handle.TextColor(BLACK);
     }
@@ -436,7 +493,7 @@ void Game::Start()
     bool isPause = false;
     Console handle;
 
-    drawGame(); //KHÁC BÀI MẪU
+    drawGame();
 
     //biến thread
     thread sThread(subThread, this, &isRunning, &isPause, sound);
@@ -469,9 +526,7 @@ void Game::Start()
                 break; //Nếu nhập N thì break vòng while gần nhất
             }
             break; //tiếp tục break vòng while lớn 
-
         }
-
         // Input = "p"
         if (input == 80)
         {
@@ -527,12 +582,28 @@ void Game::Start()
             //xử lý load game
             exitGame(&sThread, &isRunning);
             drawGame();
-            handle.GotoXY(0, 0);
-            cout << "Loading\n";
+            handle.TextColor(LIGHT_YELLOW);
+            handle.GotoXY(92, 11);
+            cout << "Enter file name\n";
             string path;
-            cout << "Enter path: ";
+            handle.GotoXY(92, 12);
+            cout << "Enter path: \n";
+            handle.GotoXY(105, 12);
             getline(cin, path);
-            loadFileGame(path);
+            if (!loadFileGame(path))
+            {
+                while (1)
+                {
+                    handle.GotoXY(90, 11);
+                    cout << "File doesn't exist";
+                    handle.GotoXY(90, 12);
+                    cout << "Press any key to continue";
+                    int tempInput = toupper(_getch());
+                    if (tempInput >= 0 && tempInput <= 127)
+                        break;
+                }
+            }
+            handle.TextColor(LIGHT_AQUA);
             break;
         }
 
@@ -587,9 +658,6 @@ void Game::Start()
 void subThread(Game* g, bool* IS_RUNNING, bool* IS_PAUSE, bool* sound)
 {
     //chỗ này là sound thread
-    int fogCounter = 0;
-    bool move = true;
-    bool fog = true;
     while (*IS_RUNNING && !g->characterIsDead())
     {
         while (*IS_PAUSE);

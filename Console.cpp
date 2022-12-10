@@ -1,15 +1,5 @@
 #include "Console.h"
 
-Console::Console()
-{
-
-}
-
-Console::~Console()
-{
-
-}
-
 void Console::resizeConsole(int width, int height)
 {
 	HWND console = GetConsoleWindow();
