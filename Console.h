@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 
-#define consoleWidth 120
+#define consoleWidth 150
 #define consoleHeight 32
 
 using namespace std;

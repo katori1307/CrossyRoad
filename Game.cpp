@@ -56,7 +56,7 @@ void Game::drawCRGameBoard(int x, int y)
         Sleep(500);
     }
     string tutorial[] = { "LEVEL ","W,A,S,D to move","ESC to exit","L to save","P to pause/ unpause","T to load","ESC to exit"};
-    int Xtutorial = 83 + (117 - 83 - tutorial[4].size()) / 2 + 3;
+    int Xtutorial = BOARD_WIDTH + 3 + ((SCOREBOARD_WIDTH - tutorial[4].size()) / 2);
     int Ytutorial = 4 + 12;
     handle->TextColor(YELLOW);
     for (int i = 0; i < 7; i++)
@@ -98,7 +98,7 @@ void Game::drawCRGameBoard(int x, int y)
     {
         for (int i = 0; i < ZERO.size(); i++)
         {
-            handle->GotoXY(111, 4 + 1 + i);
+            handle->GotoXY((110 + 3) + 28, 4 + 1 + i);
             cout << ZERO[i];
         }
         break;
@@ -107,7 +107,7 @@ void Game::drawCRGameBoard(int x, int y)
     {
         for (int i = 0; i < ONE.size(); i++)
         {
-            handle->GotoXY(111, 4 + 1 + i);
+            handle->GotoXY((110 + 3) + 28, 4 + 1 + i);
             cout << ONE[i];
         }
         break;
@@ -116,7 +116,7 @@ void Game::drawCRGameBoard(int x, int y)
     {
         for (int i = 0; i < TWO.size(); i++)
         {
-            handle->GotoXY(111, 4 + 1 + i);
+            handle->GotoXY((110 + 3) + 28, 4 + 1 + i);
             cout << TWO[i];
         }
         break;
@@ -125,7 +125,7 @@ void Game::drawCRGameBoard(int x, int y)
     {
         for (int i = 0; i < THREE.size(); i++)
         {
-            handle->GotoXY(111, 4 + 1 + i);
+            handle->GotoXY((110 + 3) + 28, 4 + 1 + i);
             cout << THREE[i];
         }
         break;
@@ -134,7 +134,7 @@ void Game::drawCRGameBoard(int x, int y)
     {
         for (int i = 0; i < FOUR.size(); i++)
         {
-            handle->GotoXY(111, 4 + 1 + i);
+            handle->GotoXY((110 + 3) + 28, 4 + 1 + i);
             cout << FOUR[i];
         }
         break;
@@ -149,7 +149,7 @@ void Game::drawCRGameBoard(int x, int y)
     levelTitle.push_back(" |____|___| \\_/ |___|____|");
     for (int i = 0; i < levelTitle.size(); i++)
     {
-        handle->GotoXY(83 + (117 - 83 - levelTitle[0].size()) / 2 - 3, 4 + 1 + i);
+        handle->GotoXY(BOARD_WIDTH + 3 +((SCOREBOARD_WIDTH - levelTitle[0].size()) / 2) - 3, 4 + 1 + i);
         cout << levelTitle[i];
     }
 }
@@ -184,15 +184,28 @@ void Launch()
 
     //Loading
     handle.TextColor(LIGHT_AQUA);
-    string loading = "Loading~~~";
+    string loading = "LOADING~~~";
     handle.GotoXY((consoleWidth - loading.length()) / 2, (consoleHeight - 5) / 2);
     cout << loading << endl;
+    handle.GotoXY(consoleWidth / 5 - 2, (consoleHeight - 4) / 2 + 2);
+    cout << "|";
+    handle.GotoXY(consoleWidth / 5 - 2 + 93, (consoleHeight - 4) / 2 + 2);
+    cout << "|";
+    for (int i = consoleWidth / 5 - 2; i < consoleWidth * 4 / 5 + 2; i++)
+    {
+        handle.GotoXY(i, (consoleHeight - 4) / 2 + 1);
+        cout << "_";
+        handle.GotoXY(i, (consoleHeight - 4) / 2 + 3);
+        cout << "_";
+    }
     for (int i = consoleWidth / 5; i < consoleWidth * 4 / 5; i++)
     {
         handle.GotoXY(i, (consoleHeight - 4) / 2 + 2);
-        cout << "*";
+        cout << "\\";
         Sleep(15);
     }
+    
+    
     system("cls");
 
     //Title
@@ -343,7 +356,7 @@ void Launch()
                 aboutUs.push_back("21127641 _ Nguyen Xuan Loc");
                 aboutUs.push_back("");
                 aboutUs.push_back("Press any key to continue");
-                handle.TextColor(BLUE);
+                handle.TextColor(LIGHT_AQUA);
                 int xTemp = consoleWidth / 2 - 15,yTemp = consoleHeight / 2 - 7;
                 for (int i = 0; i < 33; i++)
                 {
@@ -362,7 +375,7 @@ void Launch()
                     handle.GotoXY(xTemp + 33, yTemp + i);
                     cout << ")";
                 }
-                handle.TextColor(YELLOW);
+                handle.TextColor(LIGHT_YELLOW);
                 for (int i = 0; i < aboutUs.size(); i++)
                 {
                     handle.GotoXY(xTemp + 2, yTemp + 2 + i);
@@ -440,7 +453,7 @@ Game::Game(int* level, bool* sound)
     oldX = P.getX();
     oldY = P.getY();
     *lvl = *level;
-    flag = false;
+    //flag = false;
     GAMEOVER.push_back("   ___   _   __  __ ___    _____   _____ ___ ");
     GAMEOVER.push_back("  / __| /_\\ |  \\/  | __|  / _ \\ \\ / / __| _ \\");
     GAMEOVER.push_back(" | (_ |/ _ \\| |\\/| | _|  | (_) \\ V /| _||   /");
@@ -583,20 +596,20 @@ void Game::Start()
             exitGame(&sThread, &isRunning);
             drawGame();
             handle.TextColor(LIGHT_YELLOW);
-            handle.GotoXY(92, 11);
+            handle.GotoXY(92+30, 11);
             cout << "Enter file name\n";
             string path;
-            handle.GotoXY(92, 12);
+            handle.GotoXY(92+30, 12);
             cout << "Enter path: \n";
-            handle.GotoXY(105, 12);
+            handle.GotoXY(105+30, 12);
             getline(cin, path);
             if (!loadFileGame(path))
             {
                 while (1)
                 {
-                    handle.GotoXY(90, 11);
+                    handle.GotoXY(90+30, 11);
                     cout << "File doesn't exist";
-                    handle.GotoXY(90, 12);
+                    handle.GotoXY(90+30, 12);
                     cout << "Press any key to continue";
                     int tempInput = toupper(_getch());
                     if (tempInput >= 0 && tempInput <= 127)
@@ -672,20 +685,23 @@ void subThread(Game* g, bool* IS_RUNNING, bool* IS_PAUSE, bool* sound)
         g->updatePosCat();
         g->updatePosCat2();
         g->updatePosCat3();
+        g->updatePosBird3();
         //NHỊP ĐỘ GAME
         Sleep(100); // sau khi test chỉnh về hàm switch bên dưới
        /* switch (g->getLevel())
         {
         case 0:
-            Sleep(100); 
+            Sleep(300); 
         case 1:
-            Sleep(80);
+            Sleep(250);
         case 2:
-            Sleep(70);
+            Sleep(200);
         case 3:
-            Sleep(60);
+            Sleep(275);
         case 4:
-            Sleep(50);
+            Sleep(250);
+        case 5:
+            Sleep(200);
         }*/
     }
     //Xử lý khi characterIsDead == true;
@@ -694,13 +710,16 @@ void subThread(Game* g, bool* IS_RUNNING, bool* IS_PAUSE, bool* sound)
         //xử lý gì đây :)
         system("cls");
         Console handle;
-        for (int i = 0; i < g->GAMEOVER.size(); i++)
+        vector<string> GAMEOVER2;
+        GAMEOVER2.push_back("   ___   _   __  __ ___    _____   _____ ___ ");
+        GAMEOVER2.push_back("  / __| /_\\ |  \\/  | __|  / _ \\ \\ / / __| _ \\");
+        GAMEOVER2.push_back(" | (_ |/ _ \\| |\\/| | _|  | (_) \\ V /| _||   /");
+        GAMEOVER2.push_back("  \\___/_/ \\_\\_|  |_|___|  \\___/ \\_/ |___|_|_\\");
+        for (int i = 0; i < GAMEOVER2.size(); i++)
         {
-            handle.GotoXY((consoleWidth - g->GAMEOVER[0].size()) / 2, 5 + i);
-            cout << g->GAMEOVER[i];
+            handle.GotoXY((consoleWidth - GAMEOVER2[0].size()) / 2, 5 + i);
+            cout << GAMEOVER2[i];
         }
-        /*handle.GotoXY((consoleWidth - g->gameOver.size()) / 2, consoleHeight / 2 -1);
-        cout << g->gameOver;*/
         handle.GotoXY((consoleWidth - g->afterLose.size()) / 2, consoleHeight / 2 - 3);
         cout << g->afterLose;
     }
@@ -709,11 +728,8 @@ void subThread(Game* g, bool* IS_RUNNING, bool* IS_PAUSE, bool* sound)
 void Game::drawGame()
 {
     Console handle;
-
     //system("cls");
-
     drawCRGameBoard(5, 4);
-
     //vẽ người
     vector<string> formP;
     formP.push_back("~o/");
@@ -761,7 +777,6 @@ void Game::updatePosPeople()
     form.push_back("/| ");
     form.push_back("/ \\");
 
-
     handle.TextColor(LIGHT_AQUA);
     for (int i = 0; i < 3; i++)
     {
@@ -804,7 +819,7 @@ void Game::updatePosVehicle()
     }
 
     V.setX(vX + 1);
-    if (V.getX() + form[0].length() >= 79)
+    if (V.getX() + form[0].length() >= BOARD_WIDTH - 1)
         V.setX(6);
 
     for (int i = 0; i < 3; i++)
@@ -833,16 +848,17 @@ bool Game::characterIsDead()
 
 void Game::updatePosVehicle2()
 {
-    if (V.getX() < 6 + 30)
+    if (V.getX() < 50)
     {
-        if(flag==false)
+        if(flagV==false)
             return;
     }
     else
-        flag = true;
-
+        flagV = true;
     V.updateMoveCount2();
     if (V.getMoveCount2() <= 15)
+        return;
+    if (*lvl <= 1)
         return;
 
     Console handle;
@@ -860,7 +876,7 @@ void Game::updatePosVehicle2()
     }
 
     V.setX2(vX + 1);
-    if (V.getX2() + form[0].length() >= 79)
+    if (V.getX2() + form[0].length() >= BOARD_WIDTH - 1)
         V.setX2(6);
 
     for (int i = 0; i < 3; i++)
@@ -874,10 +890,10 @@ void Game::updatePosVehicle2()
 void Game::redLight()
 {
     Console handle;
-    handle.GotoXY(78, 5);
+    handle.GotoXY(BOARD_WIDTH - 2, 5);
     handle.TextColor(LIGHT_RED);
     cout << "*";
-    handle.GotoXY(78, 13);
+    handle.GotoXY(BOARD_WIDTH - 2, 13);
     cout << "*";
     handle.TextColor(LIGHT_AQUA);
 }
@@ -885,10 +901,10 @@ void Game::redLight()
 void Game::greenLight()
 {
     Console handle;
-    handle.GotoXY(78, 5);
+    handle.GotoXY(BOARD_WIDTH - 2, 5);
     handle.TextColor(LIGHT_GREEN);
     cout << "*";
-    handle.GotoXY(78, 13);
+    handle.GotoXY(BOARD_WIDTH - 2, 13);
     cout << "*";
     handle.TextColor(LIGHT_AQUA);
 }
@@ -920,7 +936,7 @@ void Game::updatePosHeli()
         cout << "              ";
     }
     H.setX(vX + 1);
-    if (H.getX() + form[0].length() >= 79)
+    if (H.getX() + form[0].length() >= BOARD_WIDTH - 1)
         H.setX(6);
     for (int i = 0; i < 3; i++)
     {
@@ -932,15 +948,18 @@ void Game::updatePosHeli()
 
 void Game::updatePosHeli2()
 {
-    if (H.getX() < 6 + 30)
+    if (H.getX() < 50)
     {
-        if (flag == false)
+        if (flagH == false)
             return;
     }
     else
-        flag = true;
+        flagH = true;
+
     H.updateMoveCount2();
     if (H.getMoveCount2() <= 15)
+        return;
+    if (*lvl < 1)
         return;
     Console handle;
     vector<string> form;
@@ -956,7 +975,7 @@ void Game::updatePosHeli2()
         cout << "              ";
     }
     H.setX2(vX + 1);
-    if (H.getX2() + form[0].length() >= 79)
+    if (H.getX2() + form[0].length() >= BOARD_WIDTH - 1)
         H.setX2(6);
     for (int i = 0; i < 3; i++)
     {
@@ -981,7 +1000,7 @@ void Game::updatePosBird()
         cout << "        ";
     }
     B.setX(vX + 1);
-    if (B.getX() + form[0].length() >= 79)
+    if (B.getX() + form[0].length() >= BOARD_WIDTH - 1)
         B.setX(6);
     for (int i = 0; i < 3; i++)
     {
@@ -993,13 +1012,15 @@ void Game::updatePosBird()
 
 void Game::updatePosBird2()
 {
-    if (B.getX() < 28)
+    if (B.getX() < 40)
     {
         if (flagB == false)
             return;
     }
     else
         flagB = true;
+    if (*lvl < 1)
+        return;
     Console handle;
     vector<string> form;
     form.push_back("___( o)>");
@@ -1013,11 +1034,45 @@ void Game::updatePosBird2()
         cout << "        ";
     }
     B.setX2(vX + 1);
-    if (B.getX2() + form[0].length() >= 79)
+    if (B.getX2() + form[0].length() >= BOARD_WIDTH - 1)
         B.setX2(6);
     for (int i = 0; i < 3; i++)
     {
         vX = B.getX2();
+        handle.GotoXY(vX, vY + i);
+        cout << form[i];
+    }
+}
+
+void Game::updatePosBird3()
+{
+    if (B.getX() < 70)
+    {
+        if (flagB2 == false)
+            return;
+    }
+    else
+        flagB2 = true;
+    if (*lvl <= 1)
+        return;
+    Console handle;
+    vector<string> form;
+    form.push_back("___( o)>");
+    form.push_back("\ <_. ) ");
+    form.push_back(" `---'  ");
+    int vX, vY = B.getY();
+    for (int i = 0; i < 3; i++)
+    {
+        vX = B.getX3();
+        handle.GotoXY(vX, vY + i);
+        cout << "        ";
+    }
+    B.setX3(vX + 1);
+    if (B.getX3() + form[0].length() >= BOARD_WIDTH - 1)
+        B.setX3(6);
+    for (int i = 0; i < 3; i++)
+    {
+        vX = B.getX3();
         handle.GotoXY(vX, vY + i);
         cout << form[i];
     }
@@ -1038,7 +1093,7 @@ void Game::updatePosCat()
         cout << "        ";
     }
     C.setX(vX + 1);
-    if (C.getX() + form[0].length() >= 79)
+    if (C.getX() + form[0].length() >= BOARD_WIDTH - 1)
         C.setX(6);
     for (int i = 0; i < 3; i++)
     {
@@ -1050,13 +1105,15 @@ void Game::updatePosCat()
 
 void Game::updatePosCat2()
 {
-    if (C.getX() < 23)
+    if (C.getX() < 40)
     {
         if (flagC == false)
             return;
     }
     else
         flagC = true;
+    if (*lvl < 1)
+        return;
     Console handle;
     vector<string> form;
     form.push_back(" /\\_/\\ ");
@@ -1070,7 +1127,7 @@ void Game::updatePosCat2()
         cout << "        ";
     }
     C.setX2(vX + 1);
-    if (C.getX2() + form[0].length() >= 79)
+    if (C.getX2() + form[0].length() >= BOARD_WIDTH - 1)
         C.setX2(6);
     for (int i = 0; i < 3; i++)
     {
@@ -1082,13 +1139,15 @@ void Game::updatePosCat2()
 
 void Game::updatePosCat3()
 {
-    if (C.getX() < 46)
+    if (C.getX() < 60)
     {
         if (flagC2 == false)
             return;
     }
     else
         flagC2 = true;
+    if (*lvl <= 1)
+        return;
     Console handle;
     vector<string> form;
     form.push_back(" /\\_/\\ ");
@@ -1102,7 +1161,7 @@ void Game::updatePosCat3()
         cout << "        ";
     }
     C.setX3(vX + 1);
-    if (C.getX3() + form[0].length() >= 79)
+    if (C.getX3() + form[0].length() >= BOARD_WIDTH - 1)
         C.setX3(6);
     for (int i = 0; i < 3; i++)
     {
@@ -1112,38 +1171,17 @@ void Game::updatePosCat3()
     }
 }
 
-//string Game::saveGame()
-//{
-//    Console handle;
-//    drawGame();
-//    handle.TextColor(YELLOW);
-//    handle.GotoXY(92, 11);
-//    cout << "Saving\n";
-//    string path;
-//    handle.GotoXY(92, 12);
-//    cout << "Enter path: \n";
-//    handle.GotoXY(105, 12);
-//    getline(cin, path);
-//    ofstream file;
-//    file.open(path, ios::binary);
-//    file.write((char*)lvl, sizeof(int));
-//    file.close();
-//    handle.TextColor(LIGHT_AQUA);
-//    return path;
-//}
-
-
 string Game::saveGame()
 {
     Console handle;
     drawGame();
     handle.TextColor(YELLOW);
-    handle.GotoXY(92, 11);
+    handle.GotoXY(92+30, 11);
     cout << "Saving\n";
     string path;
-    handle.GotoXY(92, 12);
+    handle.GotoXY(92+30, 12);
     cout << "Enter path: \n";
-    handle.GotoXY(105, 12);
+    handle.GotoXY(105+30, 12);
     getline(cin, path);
     ofstream file;
     file.open(path);

@@ -28,8 +28,9 @@ using namespace std;
 class Game
 {
 public:
-	static const int BOARD_WIDTH = 80;
+	static const int BOARD_WIDTH = 110;
 	static const int BOARD_HEIGHT = 25;
+	static const int SCOREBOARD_WIDTH = 34;
 	string gameOver = "GAME OVER!";
 	string afterLose = "PRESS Y TO CONTINUE, N TO END";
 	string pausing = "GAME PAUSE";
@@ -49,9 +50,9 @@ private:
 	Cat C;
 	bool* sound;
 	int* lvl = new int;
-	bool flag;
-	bool flagB;
-	bool flagC, flagC2;
+	bool flagV, flagH; //flag cho vehicle
+	bool flagB, flagB2; //flag cho bird
+	bool flagC, flagC2; //flag cho cat
 public:
 	Game();
 	Game(int* level, bool* sound);
@@ -67,6 +68,7 @@ public:
 	int getLevel();
 
 	void updatePosPeople();
+
 	void updatePosVehicle();
 	void updatePosVehicle2();
 

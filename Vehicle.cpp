@@ -99,25 +99,20 @@ void Vehicle::updateMoveCount2()
 		moveCount2 = 0;
 }
 
-
 bool Vehicle::isTime()
 {
 	return moveCount != 0;
 }
-
 
 int Vehicle::getMoveCount()
 {
 	return moveCount;
 }
 
-
 void Vehicle::setMoveCount(int step)
 {
 	moveCount = step;
 }
-
-
 
 int Vehicle::getMoveCount2()
 {

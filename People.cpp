@@ -125,7 +125,7 @@ void People::Left()
 
 void People::Right()
 {
-	if (mX + 3 >= 79) return;
+	if (mX + 3 >= 79 + 30) return; // Cập nhật lại kích thước console
 	mX += 1;
 }
 

@@ -44,6 +44,19 @@ int main()
 	functest2.join();*/                   
 
 	Launch();
+	/*Console handle;
+	handle.hideCursor();
+	Game g;
+	g.drawCRGameBoard(5, 4);*/
+	
+	/*handle.GotoXY(109, 4);
+	cout << "X";
+	handle.GotoXY(113, 4);
+	cout << "X";
+	handle.GotoXY(113 + 34, 4);
+	cout << "X";*/
+	//system("pause");
+	
 
 	
 	
