@@ -21,6 +21,7 @@ public:
 	void FixConsoleWindow();
 	void resizeConsole(int width, int height);
 	void TextColor(int color);
+	void setconsolecolor(int textColor, int bgColor);
 	void hideCursor();
 
 };

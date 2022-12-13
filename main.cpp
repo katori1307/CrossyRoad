@@ -1,5 +1,5 @@
 ﻿#include "Game.h"
-
+#include <Windows.h>
 
 
 
@@ -27,7 +27,6 @@
 
 
 
-
 int main()
 {
 	/*SetConsoleTitle(L"Crossy Road");*/
@@ -44,6 +43,7 @@ int main()
 	functest2.join();*/                   
 
 	Launch();
+
 	/*Console handle;
 	handle.hideCursor();
 	Game g;
@@ -57,10 +57,10 @@ int main()
 	cout << "X";*/
 	//system("pause");
 	
-
 	
 	
-
+	
+	
 	
 	
 	

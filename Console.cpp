@@ -42,9 +42,14 @@ void Console::GotoXY(int x, int y)
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
 
+//void Console::TextColor(int color)
+//{
+//	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+//}
+
 void Console::TextColor(int color)
 {
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (color + (15 * 16)));
 }
 
 
@@ -56,3 +61,10 @@ void Console::hideCursor()
 	info.bVisible = FALSE;
 	SetConsoleCursorInfo(consoleHandle, &info);
 }
+
+
+//void Console::setconsolecolor(int textColor, int bgColor)
+//{
+//	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (textColor + (bgColor * 16)));
+//}
+

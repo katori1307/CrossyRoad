@@ -13,14 +13,20 @@
 
 #define BLACK 0
 #define BLUE 1
+#define GREEN 2
 #define AQUA 3
 #define RED 4
+#define PURPLE 5
 #define YELLOW 6
+#define WHITE 7
 #define GRAY 8
+#define LIGHT_BLUE 9
 #define LIGHT_GREEN 10
 #define LIGHT_AQUA 11
 #define LIGHT_RED 12
+#define LIGHT_PURPLE
 #define LIGHT_YELLOW 14
+#define BRIGHT_WHITE 15
 using namespace std;
 //4 goc man hinh option la A(83,4) B(117,4) C(83,24) D(117,24)
 //4 goc man hinh game: A(5,4) B(79,4) C(5,24) D(79,24)

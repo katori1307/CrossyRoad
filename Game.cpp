@@ -4,7 +4,7 @@
 void Game::drawCRGameBoard(int x, int y)
 {
     Console* handle = new Console;
-    handle->TextColor(LIGHT_AQUA);
+    handle->TextColor(BLACK);
     //in 2 hàng ngang màn hình game
     for (int i = x; i < Game::BOARD_WIDTH; i++)
     {
@@ -23,7 +23,28 @@ void Game::drawCRGameBoard(int x, int y)
         cout << char(41);
         Sleep(10);
     }
-    handle->TextColor(LIGHT_RED);
+    vector<string> cat;
+    cat.push_back("    /\\_/\\           ___");
+    cat.push_back("   = o_o =_______    \\ \\ ");
+    cat.push_back("   \\ __^      __(  \\.__) )");
+    cat.push_back("(@)<_____>__(_____)____/");
+    vector<string> owl;
+    owl.push_back("   ___     ___");
+    owl.push_back("  (o o)   (o o)");
+    owl.push_back(" (  V  ) (  V  ) ");
+    owl.push_back("/--m-m- /--m-m-");
+    for (int i = 0; i < cat.size(); i++)
+    {
+        handle->TextColor(YELLOW);
+        handle->GotoXY(6, 1+i);
+        cout << cat[i];
+        handle->TextColor(GREEN);
+        handle->GotoXY(90, 1+i);
+        cout << owl[i];
+        handle->GotoXY(40, 1+i);
+        cout << owl[i];
+    }
+    handle->TextColor(RED);
     //in 2 hàng ngang màn hình option
     for (int i = 0; i < 34; i++)
     {
@@ -43,8 +64,17 @@ void Game::drawCRGameBoard(int x, int y)
         cout << char(41);
         Sleep(10);
     }
-
-    handle->TextColor(LIGHT_AQUA); 
+    cat.clear();
+    cat.push_back("    |\\__/,|   (`\\");
+    cat.push_back("  _.|o o  |_   ) )");
+    cat.push_back("-(((---(((--------");
+    for (int i = 0; i < cat.size(); i++)
+    {
+        handle->TextColor(YELLOW);
+        handle->GotoXY(Game::BOARD_WIDTH + 10, 2 + i);
+        cout << cat[i];
+    }
+    handle->TextColor(BLACK); 
     //4 đường phân cách làn xe
     for (int t = 1; t <= 4; t++)
     {
@@ -58,7 +88,7 @@ void Game::drawCRGameBoard(int x, int y)
     string tutorial[] = { "LEVEL ","W,A,S,D to move","ESC to exit","L to save","P to pause/ unpause","T to load","ESC to exit"};
     int Xtutorial = BOARD_WIDTH + 3 + ((SCOREBOARD_WIDTH - tutorial[4].size()) / 2);
     int Ytutorial = 4 + 12;
-    handle->TextColor(YELLOW);
+    handle->TextColor(PURPLE);
     for (int i = 0; i < 7; i++)
     {
         handle->GotoXY(Xtutorial, Ytutorial + i);
@@ -181,9 +211,12 @@ void Launch()
     SetConsoleTitle(L"Crossy Road");
     handle.FixConsoleWindow();
     handle.hideCursor();
+   /* handle.setconsolecolor(0, 15);
+    system("cls");*/
 
     //Loading
-    handle.TextColor(LIGHT_AQUA);
+    handle.TextColor(BLUE);
+    //handle.setconsolecolor(BLACK, BRIGHT_WHITE);
     string loading = "LOADING~~~";
     handle.GotoXY((consoleWidth - loading.length()) / 2, (consoleHeight - 5) / 2);
     cout << loading << endl;
@@ -209,7 +242,8 @@ void Launch()
     system("cls");
 
     //Title
-    handle.TextColor(LIGHT_YELLOW);
+    handle.TextColor(RED);
+    //handle.setconsolecolor(GREEN, BRIGHT_WHITE);
     int titleHeight;
     int titleWidth;
     vector<string> title;
@@ -229,13 +263,100 @@ void Launch()
 
     //Menu
     string menu[] = { "1. New game", "2. Continue game", "3. Load game", "4. Settings", "5. Exit" };
-    handle.TextColor(YELLOW);
+    //handle.TextColor(YELLOW);
+    handle.TextColor(BLACK);
 
     Sleep(500);
     for (int i = 0; i < 5; i++)
     {
         handle.GotoXY((consoleWidth - menu[1].length()) / 2, consoleHeight / 5 + 8 + i);
         cout << menu[i];
+    }
+    int tempA = (consoleWidth - menu[1].length()) / 2 - 3;
+    for (int i = tempA; i < tempA + menu[1].length() + 6; i++)
+    {
+        handle.GotoXY(i, consoleHeight / 5 + 7);
+        cout << "_";
+        handle.GotoXY(i, consoleHeight / 5 + 7 + 6);
+        cout << "_";
+    }
+    for (int i = 0; i < 6; i++)
+    {
+        handle.GotoXY(tempA, consoleHeight / 5 + 8 + i);
+        cout << "|";
+        handle.GotoXY(tempA + menu[1].length() + 6, consoleHeight / 5 + 8 + i);
+        cout << "|";
+    }
+
+    vector<string> city;
+    city.push_back("                                    +              #####");
+    city.push_back("                                   / \\");
+    city.push_back("        _____     __________/ o \\/\\_________      _________");
+    city.push_back(" _______|    |___|               | | # # #  |____|o o o o  |");
+    city.push_back("|  * * *|: ::|. .|               |o| # # #  |. . |o o o o  |");
+    city.push_back("|* * *  |::  |. .| []  []  []  []|o| # # #  |. . |o o o o  |");
+    city.push_back("|**  ** |:  :|. .| []  []  []    |o| # # #  |. . |o o o o  |");
+    city.push_back("|__[]___|_||_|__<|____________;;_|_|___/\\___|_.|_|____[]___|");
+   /* handle.GotoXY(5, 19);
+    cout << "X";*/
+    handle.TextColor(GREEN);
+    for (int i = 0; i < city.size(); i++)
+    {
+        handle.GotoXY(0, 14+i);
+        cout << city[i];
+    }
+    for (int i = 0; i < city.size(); i++)
+    {
+        handle.GotoXY((consoleWidth + menu[1].length()) / 2 + 6, 14 + i);
+        cout << city[i];
+    }
+    handle.TextColor(BLUE);
+    vector<string> cloud;
+    cloud.push_back("   __   _");
+    cloud.push_back(" _(  )_( )_");
+    cloud.push_back("(_   _    _)");
+    cloud.push_back("  (_) (__)");
+    vector<string> b;
+    b.push_back("___( o)>");
+    b.push_back("\ <_. ) ");
+    b.push_back(" `---'  ");
+    vector<string> c;
+    c.push_back("                                                         _________________________   ");
+    c.push_back("                    /\\\\      _____          _____       |   |     |     |    | |  \\  ");
+    c.push_back("     ,-----,       /  \\\\____/__|__\\_    ___/__|__\\___   |___|_____|_____|____|_|___\\ ");
+    c.push_back("  ,--'---:---`--, /  |  _     |     `| |      |      `| |                    | |    \\");
+    c.push_back(" ==(o)-----(o)==J    `(o)-------(o)=   `(o)------(o)'   `--(o)(o)--------------(o)--'  ");
+    c.push_back("```````````````````````````````````````````````````````````````````````````````````````````````");
+     
+
+    for (int i = 0; i < cloud.size(); i++)
+    {
+        handle.GotoXY(10, 6 + i);
+        cout << cloud[i];
+        handle.GotoXY(16, 7 + i);
+        cout << cloud[i];
+        handle.GotoXY(110, 7 + i);
+        cout << cloud[i];
+        handle.GotoXY(50, 1 + i);
+        cout << cloud[i];
+        handle.GotoXY(90, 2 + i);
+        cout << cloud[i];
+    }
+ 
+    for (int i = 0; i < b.size(); i++)
+    {
+        handle.GotoXY(30, 2 + i);
+        cout << b[i];
+        handle.GotoXY(130, 6 + i);
+        cout << b[i];
+    }
+    handle.TextColor(PURPLE);
+    for (int i = 0; i < c.size(); i++)
+    {
+        handle.GotoXY(0, 24 + i);
+        cout << c[i];
+        handle.GotoXY(55, 24 + i);
+        cout << c[i];
     }
 
     //Các biến cần chuẩn bị
@@ -248,6 +369,7 @@ void Launch()
     bool sound = true;
 
     Sleep(500);
+    handle.TextColor(BLACK);
     handle.GotoXY(optionX, optionY + 8);
     cout << "W,S to control";
     handle.GotoXY(optionX, optionY + 9);
@@ -264,7 +386,7 @@ void Launch()
         }*/
 
         handle.GotoXY(optionX, optionY + line);
-        handle.TextColor(LIGHT_RED);
+        handle.TextColor(RED);
         cout << menu[line];
 
         int input = toupper(_getch());
@@ -356,7 +478,7 @@ void Launch()
                 aboutUs.push_back("21127641 _ Nguyen Xuan Loc");
                 aboutUs.push_back("");
                 aboutUs.push_back("Press any key to continue");
-                handle.TextColor(LIGHT_AQUA);
+                handle.TextColor(BLUE);
                 int xTemp = consoleWidth / 2 - 15,yTemp = consoleHeight / 2 - 7;
                 for (int i = 0; i < 33; i++)
                 {
@@ -375,7 +497,7 @@ void Launch()
                     handle.GotoXY(xTemp + 33, yTemp + i);
                     cout << ")";
                 }
-                handle.TextColor(LIGHT_YELLOW);
+                handle.TextColor(RED);
                 for (int i = 0; i < aboutUs.size(); i++)
                 {
                     handle.GotoXY(xTemp + 2, yTemp + 2 + i);
@@ -398,14 +520,14 @@ void Launch()
 
             system("cls");
 
-            handle.TextColor(LIGHT_YELLOW);
+            handle.TextColor(RED);
             for (int i = 0; i < titleHeight; i++)
             {
                 handle.GotoXY((consoleWidth - titleWidth) / 2, consoleHeight / 5 + i);
                 cout << title[i];
             }
 
-            handle.TextColor(YELLOW);
+            handle.TextColor(BLACK);
             handle.GotoXY(optionX, optionY + 8);
             cout << "W,S to control";
             handle.GotoXY(optionX, optionY + 9);
@@ -419,7 +541,7 @@ void Launch()
         }
         //User chưa nhấn "E"
         handle.GotoXY(optionX, optionY + line); //Đổi màu option mà user chưa chọn thành màu bthg
-        handle.TextColor(YELLOW);   //haha
+        handle.TextColor(BLACK);   
         cout << menu[line];
 
         if (input == 87)
@@ -573,8 +695,12 @@ void Game::Start()
             exitGame(&sThread, &isRunning);
             string path;
             path = saveGame();
-            handle.GotoXY(0, 0);
-            cout << "Press Y to continue, N to end\n";
+            /*handle.GotoXY(0, 0);*/
+            
+            string option = "Press Y to continue, N to end";
+            handle.GotoXY((consoleWidth - option.size()) / 2, 3);
+            cout << option;
+            //cout << "Press Y to continue, N to end\n";
             while (1)
             {
                 int tempInput = toupper(_getch());
@@ -595,7 +721,7 @@ void Game::Start()
             //xử lý load game
             exitGame(&sThread, &isRunning);
             drawGame();
-            handle.TextColor(LIGHT_YELLOW);
+            handle.TextColor(BLACK);
             handle.GotoXY(92+30, 11);
             cout << "Enter file name\n";
             string path;
@@ -616,7 +742,7 @@ void Game::Start()
                         break;
                 }
             }
-            handle.TextColor(LIGHT_AQUA);
+            handle.TextColor(BLACK);
             break;
         }
 
@@ -736,7 +862,7 @@ void Game::drawGame()
     formP.push_back("/| ");
     formP.push_back("/ \\");
 
-    handle.TextColor(LIGHT_AQUA);
+    handle.TextColor(BLACK);
     for (int i = 0; i < 3; i++)
     {
         handle.GotoXY(P.getX(), P.getY() + i);
@@ -777,7 +903,7 @@ void Game::updatePosPeople()
     form.push_back("/| ");
     form.push_back("/ \\");
 
-    handle.TextColor(LIGHT_AQUA);
+    handle.TextColor(BLACK);
     for (int i = 0; i < 3; i++)
     {
         handle.GotoXY(oldX, oldY + i);
@@ -797,6 +923,7 @@ void Game::updatePosPeople()
 void Game::updatePosVehicle()
 {
     Console handle;
+    
     V.updateMoveCount();
     if (V.getMoveCount() <= 15)
     {
@@ -848,7 +975,7 @@ bool Game::characterIsDead()
 
 void Game::updatePosVehicle2()
 {
-    if (V.getX() < 50)
+    if (V.getX() < 60)
     {
         if(flagV==false)
             return;
@@ -895,7 +1022,7 @@ void Game::redLight()
     cout << "*";
     handle.GotoXY(BOARD_WIDTH - 2, 13);
     cout << "*";
-    handle.TextColor(LIGHT_AQUA);
+    handle.TextColor(BLACK);
 }
 
 void Game::greenLight()
@@ -906,7 +1033,7 @@ void Game::greenLight()
     cout << "*";
     handle.GotoXY(BOARD_WIDTH - 2, 13);
     cout << "*";
-    handle.TextColor(LIGHT_AQUA);
+    handle.TextColor(BLACK);
 }
 
 int Game::getLevel()
@@ -1175,7 +1302,7 @@ string Game::saveGame()
 {
     Console handle;
     drawGame();
-    handle.TextColor(YELLOW);
+    handle.TextColor(PURPLE);
     handle.GotoXY(92+30, 11);
     cout << "Saving\n";
     string path;
@@ -1187,7 +1314,7 @@ string Game::saveGame()
     file.open(path);
     file << (*lvl);
     file.close();
-    handle.TextColor(LIGHT_AQUA);
+    handle.TextColor(BLACK);
     return path;
 }
 
