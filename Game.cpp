@@ -122,6 +122,7 @@ void Game::drawCRGameBoard(int x, int y)
     ZERO.push_back(" /  \\ ");
     ZERO.push_back("| () |");
     ZERO.push_back(" \\__/ ");
+    
     switch (*lvl)
     {
     case 0:
@@ -436,6 +437,24 @@ void Launch()
                     handle.GotoXY(xTemp + 30, consoleHeight / 2 - 7 + i);
                     cout << ")";
                 }
+                fstream file;
+                file.open("ExistFile.txt");
+                int idx = 0;
+                while (!file.eof())
+                {
+                    string str;
+                    handle.GotoXY(xTemp + 32, consoleHeight / 2 - 6 + idx);
+                    getline(file, str);
+                    cout << str;
+                    idx++;
+                }
+                
+                
+
+                
+                
+                
+                
                 //xử lý sau
                 string path;
                 handle.GotoXY(consoleWidth / 2 - 10, consoleHeight / 2 - 5);
@@ -640,16 +659,16 @@ void Game::Start()
         {
             // xử lý các thứ
             // thread thoát game
-
             exitGame(&sThread, &isRunning);
 
             handle.GotoXY((consoleWidth - afterLose.size()) / 2, consoleHeight / 2 - 3);
             cout << afterLose;
-
+           
             int tempInput = input;
-
             while (1)
             {
+
+
                 if (tempInput == 89) // chữ Y
                     startLevel(lvl, sound);
                 else if (tempInput != 78) //input != N
@@ -749,13 +768,13 @@ void Game::Start()
         //user di chuyển nhân vật
         movePeople(input);
 
-        if (P.isFinish()) // hàm này có vấn đề
+        if (P.isFinish()) 
         {
             //xử lý khi user qua màn
             Sleep(100);
             exitGame(&sThread, &isRunning);
 
-            if (*lvl < 5)
+            if (*lvl < 4) 
             {
                 ++(*lvl);
                 handle.GotoXY(consoleWidth / 3, 1);
@@ -813,22 +832,22 @@ void subThread(Game* g, bool* IS_RUNNING, bool* IS_PAUSE, bool* sound)
         g->updatePosCat3();
         g->updatePosBird3();
         //NHỊP ĐỘ GAME
-        Sleep(100); // sau khi test chỉnh về hàm switch bên dưới
-       /* switch (g->getLevel())
+        //Sleep(100); // sau khi test chỉnh về hàm switch bên dưới
+        switch (g->getLevel())
         {
         case 0:
-            Sleep(300); 
+            Sleep(125); 
         case 1:
-            Sleep(250);
+            Sleep(100);
         case 2:
-            Sleep(200);
+            Sleep(50);
         case 3:
-            Sleep(275);
+            Sleep(50);
         case 4:
-            Sleep(250);
+            Sleep(50);
         case 5:
-            Sleep(200);
-        }*/
+            Sleep(50);
+        }
     }
     //Xử lý khi characterIsDead == true;
     if (g->characterIsDead())
@@ -837,6 +856,7 @@ void subThread(Game* g, bool* IS_RUNNING, bool* IS_PAUSE, bool* sound)
         system("cls");
         Console handle;
         vector<string> GAMEOVER2;
+        handle.TextColor(PURPLE);
         GAMEOVER2.push_back("   ___   _   __  __ ___    _____   _____ ___ ");
         GAMEOVER2.push_back("  / __| /_\\ |  \\/  | __|  / _ \\ \\ / / __| _ \\");
         GAMEOVER2.push_back(" | (_ |/ _ \\| |\\/| | _|  | (_) \\ V /| _||   /");
@@ -846,6 +866,65 @@ void subThread(Game* g, bool* IS_RUNNING, bool* IS_PAUSE, bool* sound)
             handle.GotoXY((consoleWidth - GAMEOVER2[0].size()) / 2, 5 + i);
             cout << GAMEOVER2[i];
         }
+        vector<string> cloud;
+        cloud.push_back("   __   _");
+        cloud.push_back(" _(  )_( )_");
+        cloud.push_back("(_   _    _)");
+        cloud.push_back("  (_) (__)");
+        vector<string> bomb;
+        bomb.push_back("     _.-^^---....,,--       ");
+        bomb.push_back(" _--                  --_  ");
+        bomb.push_back("<                        >)");
+        bomb.push_back("|                         | ");
+        bomb.push_back(" \._                   _./  ");
+        bomb.push_back("    ```--. . , ; .--'''       ");
+        bomb.push_back("          | |   |             ");
+        bomb.push_back("       .-=||  | |=-.   ");
+        bomb.push_back("       `-=#$%&%$#=-'   ");
+        bomb.push_back("          | ;  :|     ");
+        bomb.push_back(" _____.,-#%&$@%#&#~,._____");
+        vector<string> mount;
+        mount.push_back("          /\\");
+        mount.push_back("         /**\\");
+        mount.push_back("        /****\\   /\\");
+        mount.push_back("       /      \\ /**\\");
+        mount.push_back("      /  /\\    /    \\        /\\   /\\  /\\      /\\           /\\/\\/\\  /\\");
+        mount.push_back("     /  /  \\  /      \\      /  \\/\\/  \\/  \\  /\\/  \\/\\  /\\  /\\/ / /  \\/  \\");
+        mount.push_back("    /  /    \\/ /\\     \\    /    \\ \\  /    \\/ /   /  \\/  \\/  \\  /    \\   \\");
+        mount.push_back("   /  /      \\/  \\/\\   \\  /      \\    /   /    \\");
+        mount.push_back("__/__/_______/___/__\\___\\__________________________________________________");
+        
+        for (int i = 0; i < cloud.size(); i++)
+        {
+            handle.TextColor(BLUE);
+            handle.GotoXY(10, 4 + i);
+            cout << cloud[i];
+            handle.GotoXY(16, 5 + i);
+            cout << cloud[i];
+            handle.GotoXY(120, 7 + i);
+            cout << cloud[i];
+            handle.GotoXY(100, 6 + i);
+            cout << cloud[i];
+        }
+        for (int i = 0; i < mount.size(); i++)
+        {
+            handle.TextColor(GREEN);
+            handle.GotoXY(0, 11 + i);
+            cout << mount[i];
+            handle.GotoXY(mount[6].size(), 11 + i);
+            cout << mount[i];
+        }
+        for (int i = 0; i < bomb.size(); i++)
+        {
+            handle.TextColor(GRAY);
+            handle.GotoXY(20, 17 + i);
+            cout << bomb[i];
+            handle.GotoXY(60, 17 + i);
+            cout << bomb[i];
+            handle.GotoXY(100, 17 + i);
+            cout << bomb[i];
+        }
+        handle.TextColor(RED);
         handle.GotoXY((consoleWidth - g->afterLose.size()) / 2, consoleHeight / 2 - 3);
         cout << g->afterLose;
     }
@@ -967,7 +1046,7 @@ bool Game::characterIsDead()
     if(P.isImpactH(&H))
         PlaySound(TEXT("Crash.wav"), NULL, SND_FILENAME);
     if(P.isImpactB(&B))
-        PlaySound(TEXT("Duck.wav"), NULL, SND_FILENAME);
+        PlaySound(TEXT("Duck2.wav"), NULL, SND_FILENAME);
     if(P.isImpactC(&C))
         PlaySound(TEXT("CatMeow.wav"), NULL, SND_FILENAME);
     return P.isDead();
@@ -975,7 +1054,7 @@ bool Game::characterIsDead()
 
 void Game::updatePosVehicle2()
 {
-    if (V.getX() < 60)
+    if (V.getX() < 40)
     {
         if(flagV==false)
             return;
@@ -1075,7 +1154,7 @@ void Game::updatePosHeli()
 
 void Game::updatePosHeli2()
 {
-    if (H.getX() < 50)
+    if (H.getX() < 40)
     {
         if (flagH == false)
             return;
@@ -1310,6 +1389,9 @@ string Game::saveGame()
     cout << "Enter path: \n";
     handle.GotoXY(105+30, 12);
     getline(cin, path);
+    fstream ExistFile;
+    ExistFile.open("ExistFile.txt",ios::app);
+    ExistFile << path << endl;
     ofstream file;
     file.open(path);
     file << (*lvl);

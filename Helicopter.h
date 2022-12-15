@@ -2,21 +2,21 @@
 #include <vector>
 #include <string>
 #include "Console.h"
-
+#include "Vehicle.h"
 using namespace std;
 
-class Helicopter
+class Helicopter: public Vehicle
 {
-private:
-	int mX, mX2;
-	int mY;
-	int moveCount;
-	int moveCount2;
+//private:
+//	int mX, mX2;
+//	int mY;
+//	int moveCount;
+//	int moveCount2;
 public:
 	Helicopter();
 	~Helicopter();
 
-	int getX();
+	/*int getX();
 	void setX(int);
 	int getY();
 	void setY(int);
@@ -30,5 +30,5 @@ public:
 	void setMoveCount2(int);
 
 	void updateMoveCount2();
-	void updateMoveCount();
+	void updateMoveCount();*/
 };

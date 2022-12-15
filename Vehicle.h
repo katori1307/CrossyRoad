@@ -12,7 +12,7 @@ public:
 	const int width = 14;
 	int mSpeed;
 
-private:
+protected:
 	int mX, mX2;
 	int mY;
 	vector <string> form;
@@ -42,8 +42,8 @@ public:
 
 	int getMoveCount2();
 	void setMoveCount2(int);
+
 	void updateMoveCount2();
-	
 	void updateMoveCount();
 	bool isTime();
 		

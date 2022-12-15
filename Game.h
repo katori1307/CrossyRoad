@@ -27,9 +27,11 @@
 #define LIGHT_PURPLE
 #define LIGHT_YELLOW 14
 #define BRIGHT_WHITE 15
+
 using namespace std;
 //4 goc man hinh option la A(83,4) B(117,4) C(83,24) D(117,24)
 //4 goc man hinh game: A(5,4) B(79,4) C(5,24) D(79,24)
+
 
 class Game
 {
@@ -46,6 +48,8 @@ public:
 	vector<string> THREE;
 	vector<string> FOUR;
 	vector<string> ZERO;
+	//vector<string> existFile;
+
 	//int commonSize = 4;
 private:
 	People P;
@@ -59,6 +63,7 @@ private:
 	bool flagV, flagH; //flag cho vehicle
 	bool flagB, flagB2; //flag cho bird
 	bool flagC, flagC2; //flag cho cat
+	
 public:
 	Game();
 	Game(int* level, bool* sound);
@@ -82,16 +87,17 @@ public:
 	void updatePosHeli2();
 
 	bool characterIsDead();
+
 	void redLight();
 	void greenLight();
 
 	void updatePosBird();
 	void updatePosBird2();
 	void updatePosBird3();
+
 	void updatePosCat();
 	void updatePosCat2();
 	void updatePosCat3();
-
 
 	string saveGame();
 	bool loadFileGame(string);
