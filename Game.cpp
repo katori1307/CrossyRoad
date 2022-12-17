@@ -187,10 +187,8 @@ void Game::drawCRGameBoard(int x, int y)
 
 void Game::exitGame(thread* t, bool* IS_RUNNING)
 {
-    //system("cls");
     *IS_RUNNING = false;
     t->join();
-
 }
 
 void Game::movePeople(int input)
@@ -703,7 +701,6 @@ void Game::Start()
         if (input == 27)
         {
             //thread thoát game
-            //exitGame(&sThread, &isRunning);
             exitGame(&sThread, &isRunning);
             break;
         }
