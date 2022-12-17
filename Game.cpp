@@ -812,7 +812,6 @@ void Game::Start()
 
 void subThread(Game* g, bool* IS_RUNNING, bool* IS_PAUSE, bool* sound)
 {
-    //chỗ này là sound thread
     while (*IS_RUNNING && !g->characterIsDead())
     {
         while (*IS_PAUSE);
