@@ -417,7 +417,7 @@ void Launch()
                     startLevel(&lvl, &sound);
                 break;
             }
-            case 2: //load game: chưa xử lý xong
+            case 2: //load game
             {
                 system("cls");
                 int xTemp = consoleWidth/2-15;
@@ -446,14 +446,6 @@ void Launch()
                     cout << str;
                     idx++;
                 }
-                
-                
-
-                
-                
-                
-                
-                //xử lý sau
                 string path;
                 handle.GotoXY(consoleWidth / 2 - 10, consoleHeight / 2 - 5);
                 cout << "Enter path: \n";
