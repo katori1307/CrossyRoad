@@ -10,16 +10,12 @@ class Vehicle
 public:
 	const int height = 3;
 	const int width = 14;
-	int mSpeed;
-
 protected:
 	int mX, mX2;
 	int mY;
 	vector <string> form;
-	
 	int moveCount;
 	int moveCount2;
-
 public:
 	Vehicle();
 	~Vehicle();
@@ -35,7 +31,6 @@ public:
 
 	int getX2();
 	void setX2(int);
-
 
 	int getMoveCount();
 	void setMoveCount(int);

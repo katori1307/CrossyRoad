@@ -1,15 +1,17 @@
 #pragma once
 #pragma comment (lib,"winmm.lib")
-#include "Console.h"
-#include "People.h"
+#include <fstream>
+#include <iostream>
 #include <thread>
 #include <Windows.h>
 #include <conio.h>
-#include "Vehicle.h"
 #include <vector>
 #include "Helicopter.h"
 #include "Animal.h"
-#include <fstream>
+#include "Console.h"
+#include "People.h"
+#include "Vehicle.h"
+
 
 #define BLACK 0
 #define BLUE 1
@@ -48,9 +50,6 @@ public:
 	vector<string> THREE;
 	vector<string> FOUR;
 	vector<string> ZERO;
-	//vector<string> existFile;
-
-	//int commonSize = 4;
 private:
 	People P;
 	int oldX, oldY;

@@ -11,7 +11,7 @@
 class People
 {
 public:
-	static const int width = 1;
+	static const int width = 3;
 	static const int height = 3;
 private:
 	int mX, mY;
@@ -27,25 +27,13 @@ public:
 	void setX(int);
 	void setY(int);
 
-	void Up(int step);
-	void Down(int step);
-	void Left(int step);
-	void Right(int step);
-	
 	void Up();
 	void Down();
 	void Left();
 	void Right();
 
-
-
 	bool isFinish();
 	bool isDead();
-
-
-	void Draw();
-	void deDraw();
-
 
 	bool isImpact(Vehicle* v);
 	bool isImpactH(Helicopter* h);

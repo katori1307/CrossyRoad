@@ -24,84 +24,12 @@ People::~People()
 }
 
 
-void People::Draw()
-{
-	Console handle;
-	int y = mY;
-
-	for (int i = 0; i < 3; i++)
-	{
-		handle.GotoXY(mX, y + i);
-		cout << form[i];
-	}
-}
-
-void People::deDraw()
-{
-	int y = mY;
-	Console handle;
-	for (int i = 0; i < 3; i++)
-	{
-		handle.GotoXY(mX, y + i);
-		cout << "   ";
-	}
-}
 
 
 
 
 
 
-void People::Up(int step)
-{
-	if (mY - step <= 4) return;
-	Console handle;
-	handle.GotoXY(mX, mY);
-	deDraw();
-	mY -= step;
-	handle.GotoXY(mX, mY);
-	Draw();
-	reDrawLineWhenMoveUPDOWN();
-	
-}
-
-void People::Down(int step)
-{
-	if (mY + 3 >= 24) return;
-	Console handle;
-	handle.GotoXY(mX, mY);
-	deDraw();
-	mY += step;
-	handle.GotoXY(mX, mY);
-	Draw();
-	reDrawLineWhenMoveUPDOWN();
-}
-
-void People::Left(int step)
-{
-	if (mX - step <= 5) return;
-	Console handle;
-	handle.GotoXY(mX, mY);
-	deDraw();
-	mX -= step;
-	handle.GotoXY(mX, mY);
-	Draw();
-	reDrawLineWhenMoveLEFT();
-}
-
-
-void People::Right(int step)
-{
-	if (mX + 3 >= 79) return;
-	Console handle;
-	handle.GotoXY(mX, mY);
-	deDraw();
-	mX += step;
-	handle.GotoXY(mX, mY);
-	Draw();
-	reDrawLineWhenMoveRIGHT();
-	
-}
 
 
 void People::Up()
@@ -125,7 +53,7 @@ void People::Left()
 
 void People::Right()
 {
-	if (mX + 3 >= 79 + 30) return; // Cập nhật lại kích thước console
+	if (mX + 3 >= 79 + 30) return; 
 	mX += 1;
 }
 
@@ -274,59 +202,6 @@ void People::setY(int Y)
 {
 	this->mY = Y;
 }
-
-
-//bool People::isImpact(Vehicle* v)
-//{
-//
-//	//vector<string> pForm;
-//	vector<string> vForm;
-//	vForm.push_back(" __/  |_\\_    ");
-//	vForm.push_back("|  _     _``-.");
-//	vForm.push_back("'-(_)---(_)--'");
-//
-//	vector<string> pForm;
-//	pForm.push_back("~o/");
-//	pForm.push_back("/| ");
-//	pForm.push_back("/ \\");
-//
-//
-//	/*pForm.push_back("~o/");
-//	pForm.push_back("/| ");
-//	pForm.push_back("/ \\");*/
-//
-//	for (int i = 0; i < pForm.size(); i++) //width của people
-//		for (int j = 0; j < pForm[i].size(); j++) //height của people
-//			for (int x = 0; x < vForm.size(); x++) //width của vehicle
-//				for (int y = 0; y < vForm[i].size(); y++) //height của vehicle
-//				{
-//					if (mX + j == v->getX() + y && mY + i == v->getY() + x && pForm[i][j] != ' ' && vForm[i][j] != ' ')
-//					{
-//						mDead = true;
-//						return true;
-//					}
-//					else
-//						return false;
-//				}
-//}
-
-
-//bool People::isImpact(Vehicle* v)
-//{
-//	int tempX = v->getX(); //x của obs
-//	int tempY = v->getY(); //y của obs
-//
-//	int sizeO = 14;
-//	int sizeH = 3;
-//
-//	if (mX == tempX && !((mY + sizeH <= tempY) || (tempY + sizeO <= mY)))
-//	{
-//		mDead = true;
-//		return true;
-//	}
-//	else
-//		return false;
-//}
 
 
 bool People::isImpact(Vehicle* v)

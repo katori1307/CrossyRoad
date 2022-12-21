@@ -210,8 +210,6 @@ void Launch()
     SetConsoleTitle(L"Crossy Road");
     handle.FixConsoleWindow();
     handle.hideCursor();
-   /* handle.setconsolecolor(0, 15);
-    system("cls");*/
 
     //Loading
     handle.TextColor(BLUE);
@@ -376,13 +374,6 @@ void Launch()
 
     while (!isStop)
     {
-        /*if (!isContinue)
-        {
-            handle.GotoXY(optionX, optionY);
-            handle.TextColor(LIGHT_RED);
-            cout << menu[1];
-
-        }*/
 
         handle.GotoXY(optionX, optionY + line);
         handle.TextColor(RED);
@@ -584,7 +575,6 @@ Game::Game(int* level, bool* sound)
     oldX = P.getX();
     oldY = P.getY();
     *lvl = *level;
-    //flag = false;
     GAMEOVER.push_back("   ___   _   __  __ ___    _____   _____ ___ ");
     GAMEOVER.push_back("  / __| /_\\ |  \\/  | __|  / _ \\ \\ / / __| _ \\");
     GAMEOVER.push_back(" | (_ |/ _ \\| |\\/| | _|  | (_) \\ V /| _||   /");
@@ -692,7 +682,6 @@ void Game::Start()
         // Input = ESC
         if (input == 27)
         {
-            //thread thoát game
             exitGame(&sThread, &isRunning);
             break;
         }
@@ -807,18 +796,23 @@ void subThread(Game* g, bool* IS_RUNNING, bool* IS_PAUSE, bool* sound)
     while (*IS_RUNNING && !g->characterIsDead())
     {
         while (*IS_PAUSE);
-        g->updatePosVehicle();
         g->updatePosPeople();
+
+        g->updatePosVehicle();
         g->updatePosVehicle2();
+       
         g->characterIsDead();
+
         g->updatePosHeli();
         g->updatePosHeli2();
+
         g->updatePosBird();
         g->updatePosBird2();
+        g->updatePosBird3();
+
         g->updatePosCat();
         g->updatePosCat2();
         g->updatePosCat3();
-        g->updatePosBird3();
         //NHỊP ĐỘ GAME
         //Sleep(100); // sau khi test chỉnh về hàm switch bên dưới
         switch (g->getLevel())
@@ -970,7 +964,6 @@ void Game::updatePosPeople()
     form.push_back("/| ");
     form.push_back("/ \\");
 
-    handle.TextColor(BLACK);
     for (int i = 0; i < 3; i++)
     {
         handle.GotoXY(oldX, oldY + i);
@@ -1007,7 +1000,7 @@ void Game::updatePosVehicle()
 
     for (int i = 0; i < 3; i++)
     {
-        vX = V.getX(); //
+        vX = V.getX(); 
         handle.GotoXY(vX, vY + i);
         cout << "              ";
     }
@@ -1388,20 +1381,7 @@ string Game::saveGame()
     return path;
 }
 
-//void Game::loadFileGame(string path)
-//{
-//    ifstream file;
-//    file.open(path, ios::binary);
-//    if (!file.is_open())
-//        return;
-//    Game g(lvl, sound);
-//    file.read((char*)lvl, sizeof(int));
-//    file.close();
-//    system("cls");
-//    g.Start();
-//}
-
-bool Game::loadFileGame(string path) //đang làm
+bool Game::loadFileGame(string path) 
 {
     ifstream file;
     file.open(path);
