@@ -31,8 +31,7 @@
 #define BRIGHT_WHITE 15
 
 using namespace std;
-//4 goc man hinh option la A(83,4) B(117,4) C(83,24) D(117,24)
-//4 goc man hinh game: A(5,4) B(79,4) C(5,24) D(79,24)
+
 
 
 class Game
